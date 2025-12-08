@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import jakarta.validation.constraints.NotNull;
 
 @Entity
@@ -26,4 +27,10 @@ public class Decks {
 	private String sideDeck;
 	
 	private String username;
+	
+	@Transient
+	private List<Card> mainDeckList;
+	
+	@Transient
+	private List<Card> sideDeckList;
 }
