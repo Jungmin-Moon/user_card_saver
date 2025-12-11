@@ -34,6 +34,7 @@ public class Decks {
 	@Transient
 	private List<Card> sideDeckList;
 
+	/*
 	public Decks(long id, @NotNull String deckName, String mainDeck, String sideDeck, String username,
 			List<Card> mainDeckList, List<Card> sideDeckList) {
 		super();
@@ -44,7 +45,7 @@ public class Decks {
 		this.username = username;
 		this.mainDeckList = mainDeckList;
 		this.sideDeckList = sideDeckList;
-	}
+	} */
 
 	public long getId() {
 		return id;

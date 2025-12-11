@@ -29,9 +29,13 @@ public class User {
 	@Size(min = 8, max = 20)
 	private String password;
 	
+	@NotNull
+	private String authority;
+	
 	@Transient
 	private List<Card> cardCollection;
 
+	/*
 	public User(long id, @NotNull @Size(min = 5, max = 20) String username,
 			@NotNull @Size(min = 8, max = 20) String password, List<Card> cardCollection) {
 		super();
@@ -39,7 +43,7 @@ public class User {
 		this.username = username;
 		this.password = password;
 		this.cardCollection = cardCollection;
-	}
+	} */
 
 	public long getId() {
 		return id;
@@ -63,6 +67,14 @@ public class User {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String getAuthority() {
+		return authority;
+	}
+
+	public void setAuthority(String authority) {
+		this.authority = authority;
 	}
 
 	public List<Card> getCardCollection() {
