@@ -1,4 +1,4 @@
-package entities;
+package com.github.jungmin_moon.yugioh_collection_backend.entities;
 
 
 import java.util.List;

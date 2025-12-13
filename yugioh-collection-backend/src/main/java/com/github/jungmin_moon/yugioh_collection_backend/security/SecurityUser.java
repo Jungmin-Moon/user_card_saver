@@ -1,4 +1,4 @@
-package security;
+package com.github.jungmin_moon.yugioh_collection_backend.security;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,7 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import entities.User;
+import com.github.jungmin_moon.yugioh_collection_backend.entities.User;
 
 public class SecurityUser implements UserDetails{
 
@@ -21,7 +21,7 @@ public class SecurityUser implements UserDetails{
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		
-		return List.of(new SimpleGrantedAuthority("ROLE_" + user.getAuthority()));
+		return List.of(new SimpleGrantedAuthority(user.getAuthority()));
 	}
 
 	@Override

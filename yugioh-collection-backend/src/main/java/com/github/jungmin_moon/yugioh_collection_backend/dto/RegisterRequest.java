@@ -1,4 +1,4 @@
-package dto;
+package com.github.jungmin_moon.yugioh_collection_backend.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
