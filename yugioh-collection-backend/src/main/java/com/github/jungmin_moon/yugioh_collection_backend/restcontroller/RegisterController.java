@@ -1,6 +1,5 @@
 package com.github.jungmin_moon.yugioh_collection_backend.restcontroller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +30,10 @@ public class RegisterController {
 		
 		if (userService.doesUserAlreadyExist(registerRequest.getUsername())) {
 			return new ResponseEntity<>("Username already taken.", HttpStatus.BAD_REQUEST);
+		}
+		
+		if (registerRequest.getPassword().length() > 20 || registerRequest.getPassword().length() < 8) {
+			return new ResponseEntity<>("Password must be between 8 and 20 characters.", HttpStatus.NOT_ACCEPTABLE);
 		}
 		
 		userRegistrationService.registerUser(registerRequest);
