@@ -24,7 +24,7 @@ public class UserRegistrationService {
 				
 		user.setUsername(registerRequest.getUsername());
 		user.setPassword(bCryptPasswordEncoder.encode(registerRequest.getPassword()));
-		user.setAuthority("ROLE_USER");
+		user.setRole("USER");
 			
 		userRepository.save(user);
 		

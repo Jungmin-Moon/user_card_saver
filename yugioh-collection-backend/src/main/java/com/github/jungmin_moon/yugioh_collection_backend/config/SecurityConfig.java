@@ -3,10 +3,16 @@ package com.github.jungmin_moon.yugioh_collection_backend.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+
+import com.github.jungmin_moon.yugioh_collection_backend.repositories.UserRepository;
+import com.github.jungmin_moon.yugioh_collection_backend.services.UserService;
 
 import jakarta.servlet.DispatcherType;
 
@@ -14,35 +20,43 @@ import jakarta.servlet.DispatcherType;
 @EnableWebSecurity
 public class SecurityConfig {
 	
-	/*
+	UserRepository userRepository;
+	UserService userService;
+	
+	SecurityConfig(UserRepository userRepository, UserService userService) {
+		this.userRepository = userRepository;
+		this.userService = userService;
+	}
+	
 	@Bean
 	UserDetailsService userDetailsService() {
-		return new UserService();
-	} */
+		return new UserService(userRepository);
+	} 
 	
 	@Bean
 	BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder(8);
 	}
 	
-	/*
+	
 	@Bean
 	DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userService);
 		
-
 		authProvider.setPasswordEncoder(bCryptPasswordEncoder());
 		
 		return authProvider;
-	} */
+	} 
 	
 	@Bean
 	SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 		
 		http
+			.httpBasic(Customizer.withDefaults())
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(
 				c -> c
+					.requestMatchers("/card").hasAnyRole("USER", "ADMIN")
 					.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 					.requestMatchers(HttpMethod.POST, "/register").permitAll()
 				

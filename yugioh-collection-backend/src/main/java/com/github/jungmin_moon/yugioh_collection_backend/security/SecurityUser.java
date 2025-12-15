@@ -1,5 +1,6 @@
 package com.github.jungmin_moon.yugioh_collection_backend.security;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -20,8 +21,11 @@ public class SecurityUser implements UserDetails{
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getRole());
 		
-		return List.of(new SimpleGrantedAuthority(user.getAuthority()));
+		//return List.of(new SimpleGrantedAuthority("ROLE_" + user.getAuthority()));
+		
+		return Arrays.asList(authority);
 	}
 
 	@Override

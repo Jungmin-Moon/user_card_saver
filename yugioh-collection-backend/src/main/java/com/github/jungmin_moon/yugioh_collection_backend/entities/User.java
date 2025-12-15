@@ -29,7 +29,7 @@ public class User {
 	private String password;
 	
 	@NotNull
-	private String authority;
+	private String role;
 	
 	@Transient
 	private List<Card> cardCollection;
@@ -68,12 +68,12 @@ public class User {
 		this.password = password;
 	}
 	
-	public String getAuthority() {
-		return authority;
+	public String getRole() {
+		return role;
 	}
 
-	public void setAuthority(String authority) {
-		this.authority = authority;
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public List<Card> getCardCollection() {

@@ -1,7 +1,5 @@
 package com.github.jungmin_moon.yugioh_collection_backend.services;
 
-import java.util.Optional;
-
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,18 +14,18 @@ public class UserService implements UserDetailsService{
 	
 	private UserRepository userRepository;
 
-	UserService(UserRepository userRepository) {
+	public UserService(UserRepository userRepository) {
 		this.userRepository = userRepository;
 	}
 	
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) {
 
-		SecurityUser securityUser = null;
+		SecurityUser securityUser = new SecurityUser(userRepository.findByUsername(username));
 		
-		if (userRepository.findByUsername(username) != null)
-			securityUser = new SecurityUser(userRepository.findByUsername(username));
-		//SecurityUser securityUser = new User();
+		if (securityUser == null)
+			throw new UsernameNotFoundException("Could not find user.");
+		
 		
 		return securityUser;
 	}
