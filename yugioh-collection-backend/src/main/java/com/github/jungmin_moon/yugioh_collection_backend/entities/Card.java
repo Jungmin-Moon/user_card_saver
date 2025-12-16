@@ -24,7 +24,7 @@ public class Card {
 	private String cardType;
 	
 	@NotNull
-	@Size(min = 0, max = 3)
+	@Size(min = 0, max = 99)
 	private int quantity;
 	
 	@NotNull
