@@ -3,6 +3,7 @@ package com.github.jungmin_moon.yugioh_collection_backend.services;
 import org.springframework.stereotype.Service;
 
 import com.github.jungmin_moon.yugioh_collection_backend.dto.NewCardRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 import com.github.jungmin_moon.yugioh_collection_backend.repositories.CardRepository;
 
@@ -26,13 +27,26 @@ public class CardService {
 	public boolean checkIfAlreadyAdded(String username, String cardName) {
 		boolean alreadyAdded = false;
 		
-		var potentialCard = cardRepository.checkIfCardAlreadyAdded(username, cardName);
+		var potentialCard = cardRepository.checkIfCardExists(username, cardName);
 		
 		if (potentialCard == null) {
 			alreadyAdded = true;
 		}
 		
 		return alreadyAdded;
+	}
+	
+	public boolean isCardInDatabase(String username, String cardName) {
+		boolean inDatabase = false;
+		
+		var potentialCard = cardRepository.checkIfCardExists(username, cardName);
+		
+		if (potentialCard == null) {
+			inDatabase = true;
+		}
+		
+		
+		return inDatabase;
 	}
 	
 	public void addCard(String username, NewCardRequest newCardRequest) {
@@ -44,5 +58,9 @@ public class CardService {
 		card.setUsername(username);
 		
 		cardRepository.save(card);
+	}
+	
+	public void updateCardCount(String username, UpdateCardRequest updateCardRequest) {
+		
 	}
 }

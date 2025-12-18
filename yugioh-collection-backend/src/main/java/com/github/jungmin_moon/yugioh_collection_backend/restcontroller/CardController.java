@@ -5,11 +5,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.jungmin_moon.yugioh_collection_backend.dto.NewCardRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
 
 @RestController
@@ -22,12 +24,6 @@ public class CardController {
 		this.cardService = cardService;
 	}
 	
-	@GetMapping
-	public String testRole(Authentication a) {
-		return "Hello, " + a.getName();
-	}
-	
-	
 	@GetMapping("/countAll")
 	public String cardCollection(Authentication a) {
 		
@@ -36,6 +32,7 @@ public class CardController {
 	} 
 	
 	
+	//should implemenet a way to check if the card is real or not but for now, anything can be added
 	@PostMapping("/add")
 	public ResponseEntity<?> addCard(@RequestBody NewCardRequest newCardRequest, Authentication a) {
 		if (cardService.checkIfAlreadyAdded(a.getName(), newCardRequest.getCardName())) {
@@ -44,5 +41,18 @@ public class CardController {
 			cardService.addCard(a.getName(), newCardRequest);
 			return new ResponseEntity<>("Card added to your collection", HttpStatus.CREATED);
 		}
+	}
+	
+	@PutMapping("/update")
+	public ResponseEntity<?> updateCard(@RequestBody UpdateCardRequest updateCardRequest, Authentication a) {
+		//first need to check if it exists
+		
+		if (cardService.isCardInDatabase(a.getName(), updateCardRequest.getCardName())) {
+			cardService.updateCardCount(a.getName(), updateCardRequest);
+			return new ResponseEntity<>("Card in your collection is updated.", HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("That card is not in your collection.", HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 }
