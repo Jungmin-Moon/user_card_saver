@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.jungmin_moon.yugioh_collection_backend.dto.NewCardRequest;
@@ -31,6 +32,14 @@ public class CardController {
 		
 	} 
 	
+	
+	@GetMapping("/{cardName:[0-9a-zA-Z\\s&.]*}")
+	public String getCardInfo(Authentication a, @RequestParam String cardName) {
+		
+		
+		
+		return "";
+	}
 	
 	//should implemenet a way to check if the card is real or not but for now, anything can be added
 	@PostMapping("/add")
