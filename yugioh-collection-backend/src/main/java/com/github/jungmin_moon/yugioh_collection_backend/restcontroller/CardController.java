@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.jungmin_moon.yugioh_collection_backend.dto.NewCardRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
 
 @RestController
@@ -33,10 +34,28 @@ public class CardController {
 	} 
 	
 	
-	@GetMapping("/{cardName:[0-9a-zA-Z\\s&.]*}")
+	@GetMapping("/{cardName:[0-9a-zA-Z\s&.]*}")
 	public String getCardInfo(Authentication a, @RequestParam String cardName) {
 		
+		if (cardService.isCardInDatabase(a.getName(), cardName) == false) {
+			return "That card does not exist in your collection, " + a.getName();
+		} else {
+			Card card = cardService.getCardInfo(cardName, cardName);
+			return "Card Name: " + card.getCardName() + "\n" + 
+					"Card Type: " + card.getCardType() + "\n" +
+					"Number Owned: " + card.getQuantity();
+		}
+	}
+	
+	@GetMapping("/{quantity:")
+	public String getCardsByQuantity(Authentication a, @RequestParam int quantity) {
 		
+		
+		return "";
+	}
+	
+	@GetMapping()
+	public String getCardsWithWordInName(Authentication a, @RequestParam String wordToSearch) {
 		
 		return "";
 	}
@@ -44,7 +63,7 @@ public class CardController {
 	//should implemenet a way to check if the card is real or not but for now, anything can be added
 	@PostMapping("/add")
 	public ResponseEntity<?> addCard(@RequestBody NewCardRequest newCardRequest, Authentication a) {
-		if (cardService.checkIfAlreadyAdded(a.getName(), newCardRequest.getCardName())) {
+		if (cardService.isCardInDatabase(a.getName(), newCardRequest.getCardName())) {
 			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.BAD_REQUEST);
 		} else {
 			cardService.addCard(a.getName(), newCardRequest);

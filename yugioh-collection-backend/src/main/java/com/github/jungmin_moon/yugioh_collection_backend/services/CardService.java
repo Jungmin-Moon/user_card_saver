@@ -23,28 +23,18 @@ public class CardService {
 		return collectionList.size();
 	}
 	
-	
-	public boolean checkIfAlreadyAdded(String username, String cardName) {
-		boolean alreadyAdded = false;
-		
-		var potentialCard = cardRepository.checkIfCardExists(username, cardName);
-		
-		if (potentialCard == null) {
-			alreadyAdded = true;
-		}
-		
-		return alreadyAdded;
+	public Card getCardInfo(String username, String cardName) {
+		return cardRepository.getCardInfo(username, cardName);
 	}
 	
 	public boolean isCardInDatabase(String username, String cardName) {
 		boolean inDatabase = false;
 		
-		var potentialCard = cardRepository.checkIfCardExists(username, cardName);
+		var potentialCard = cardRepository.getCardInfo(username, cardName);
 		
 		if (potentialCard == null) {
 			inDatabase = true;
 		}
-		
 		
 		return inDatabase;
 	}

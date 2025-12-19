@@ -16,7 +16,6 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	
 	
 	@Query("SELECT c FROM Card c WHERE c.username = ?1AND c.cardName = ?2")
-	Card checkIfCardExists(String username, String cardName);
-	
+	Card getCardInfo(String username, String cardName);
 	
 }
