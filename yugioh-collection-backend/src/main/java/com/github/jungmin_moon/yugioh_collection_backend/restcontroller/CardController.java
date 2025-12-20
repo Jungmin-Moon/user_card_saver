@@ -47,8 +47,9 @@ public class CardController {
 		}
 	}
 	
-	@GetMapping("/{quantity:")
+	@GetMapping("/{quantity:[1-9]*}")
 	public String getCardsByQuantity(Authentication a, @RequestParam int quantity) {
+		
 		
 		
 		return "";

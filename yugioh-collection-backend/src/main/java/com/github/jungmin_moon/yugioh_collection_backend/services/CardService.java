@@ -51,6 +51,12 @@ public class CardService {
 	}
 	
 	public void updateCardCount(String username, UpdateCardRequest updateCardRequest) {
+		Card card = cardRepository.getCardInfo(username, updateCardRequest.getCardName());
 		
+		if (card == null) {
+			System.out.println("There is no card to update.");
+		} else {
+			cardRepository.updateCardInfo(username, updateCardRequest.getUpdatedQuanity(), updateCardRequest.getCardName());
+		}
 	}
 }

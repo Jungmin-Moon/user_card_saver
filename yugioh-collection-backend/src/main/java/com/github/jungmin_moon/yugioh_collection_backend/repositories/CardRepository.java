@@ -3,6 +3,7 @@ package com.github.jungmin_moon.yugioh_collection_backend.repositories;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
@@ -18,4 +19,15 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	@Query("SELECT c FROM Card c WHERE c.username = ?1AND c.cardName = ?2")
 	Card getCardInfo(String username, String cardName);
 	
+	
+	@Query("SELECT c FROM Card c WHERE c.username = ?1 AND c.quantity = ?2")
+	List<Card> getCardsByQuantity(String username, int quantity);
+	
+	@Modifying
+	@Query("UPDATE Card c SET c.quantity = ?2 WHERE c.username = ?1AND c.cardName = ?3")
+	void updateCardInfo(String username, int quantity, String cardName);
+	
+	
+	@Query("SELECT c FROM Card c WHERE c.username = ?1 AND c.cardName LIKE %?2%")
+	List<Card> getCardsWithWordInName(String username, String wordToFind);
 }
