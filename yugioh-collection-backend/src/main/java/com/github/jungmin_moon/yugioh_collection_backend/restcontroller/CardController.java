@@ -66,13 +66,15 @@ public class CardController {
 	public ResponseEntity<?> addCard(@RequestBody NewCardRequest newCardRequest, Authentication a) {
 		if (cardService.isCardInDatabase(a.getName(), newCardRequest.getCardName())) {
 			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.BAD_REQUEST);
-		} else {
+		} else if (cardService.quantityGreaterThanZero(newCardRequest.getQuantity())){
 			cardService.addCard(a.getName(), newCardRequest);
 			return new ResponseEntity<>("Card added to your collection", HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>("Card quantity must be greater than zero.", HttpStatus.BAD_REQUEST);
 		}
 	}
 	
-	@PutMapping("/update")
+	@PutMapping("/update/quantity")
 	public ResponseEntity<?> updateCard(@RequestBody UpdateCardRequest updateCardRequest, Authentication a) {
 		//first need to check if it exists
 		
@@ -84,4 +86,6 @@ public class CardController {
 		}
 		
 	}
+	
+	//add PutMappings for updating card name, card type in case user typos while sending a RequestBody
 }

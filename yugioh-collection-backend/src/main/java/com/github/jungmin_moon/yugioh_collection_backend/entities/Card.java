@@ -24,7 +24,6 @@ public class Card {
 	private String cardType;
 	
 	@NotNull
-	@Size(min = 1)
 	private int quantity;
 	
 	@NotNull

@@ -10,6 +10,9 @@ public class UpdateCardRequest {
 	
 	@NotNull
 	private int updatedQuanity;
+	
+	@NotNull
+	private String cardType;
 
 	public String getCardName() {
 		return cardName;
@@ -27,5 +30,11 @@ public class UpdateCardRequest {
 		this.updatedQuanity = updatedQuanity;
 	}
 	
+	public String getCardType() {
+		return cardType;
+	}
 	
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
+	}
 }

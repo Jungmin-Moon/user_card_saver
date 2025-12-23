@@ -56,7 +56,17 @@ public class CardService {
 		if (card == null) {
 			System.out.println("There is no card to update.");
 		} else {
-			cardRepository.updateCardInfo(username, updateCardRequest.getUpdatedQuanity(), updateCardRequest.getCardName());
+			cardRepository.updateCardQuantity(username, updateCardRequest.getUpdatedQuanity(), updateCardRequest.getCardName());
 		}
+	}
+	
+	public boolean quantityGreaterThanZero(int quantity) {
+		boolean greaterThanZero = true;
+		
+		if (quantity <= 0) {
+			greaterThanZero = false;
+		}
+		
+		return greaterThanZero;
 	}
 }
