@@ -8,7 +8,9 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardNameRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardQuantityRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardTypeRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 import com.github.jungmin_moon.yugioh_collection_backend.repositories.CardRepository;
 
@@ -56,7 +58,7 @@ public class CardRepositoryUnitTests {
 
 	
 	@Test
-	void givenCardCreated_whenUpdated_thenSuccess() {
+	void givenCardCreated_whenUpdatedQuantity_thenSuccess() {
 		Card card = new Card();
 		
 		card.setCardName("Dark Magician");
@@ -77,4 +79,47 @@ public class CardRepositoryUnitTests {
 		
 		assertThat(cardRepository.getCardInfo("TestUser3", "Dark Magician").getQuantity() == newQuantity);
 	}
+	
+	@Test
+	void givenCardCreated_whenUpdatedName_thenSuccess() {
+		Card card = new Card();
+		
+		card.setCardName("Dark Magician");
+		card.setCardType("Normal Monster");
+		card.setQuantity(2);
+		card.setUsername("TestUser3");
+		
+		cardRepository.save(card);
+		
+		UpdateCardNameRequest updateCardNameRequest = new UpdateCardNameRequest();
+		updateCardNameRequest.setOldCardName("Dark Magician");
+		updateCardNameRequest.setNewCardName("Dark Magician of Chaos");
+		
+		long id = cardRepository.getCardInfo("TestUser3", "Dark Magician").getId();
+		
+		cardRepository.updateCardName("TestUser3", updateCardNameRequest.getOldCardName(), updateCardNameRequest.getNewCardName());
+		
+		assertThat(cardRepository.getReferenceById(id).getCardName().equals(updateCardNameRequest.getNewCardName()));
+	}
+	
+	
+	@Test
+	void givenCardCreated_whenUpdatedCardType_thenSuccess() {
+		Card card = new Card();
+		
+		card.setCardName("Dark Magician");
+		card.setCardType("Normal Monster");
+		card.setQuantity(2);
+		card.setUsername("TestUser3");
+		
+		cardRepository.save(card);
+		
+		UpdateCardTypeRequest updateCardTypeRequest = new UpdateCardTypeRequest();
+		updateCardTypeRequest.setCardName("Dark Magician");
+		updateCardTypeRequest.setNewCardType("Effect Monster");
+		
+		cardRepository.updateCardType("TestUser3", updateCardTypeRequest.getCardName(), updateCardTypeRequest.getNewCardType());
+		
+		assertThat(cardRepository.getCardInfo("TestUser3", card.getCardName()).getCardType().equals(updateCardTypeRequest.getNewCardType()));
+	} 
 }
