@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.jungmin_moon.yugioh_collection_backend.dto.NewCardRequest;
-import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardNameRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardQuantityRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardTypeRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
 
@@ -65,7 +67,7 @@ public class CardController {
 	@PostMapping("/add")
 	public ResponseEntity<?> addCard(@RequestBody NewCardRequest newCardRequest, Authentication a) {
 		if (cardService.isCardInDatabase(a.getName(), newCardRequest.getCardName())) {
-			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.FOUND);
 		} else if (cardService.quantityGreaterThanZero(newCardRequest.getQuantity())){
 			cardService.addCard(a.getName(), newCardRequest);
 			return new ResponseEntity<>("Card added to your collection", HttpStatus.CREATED);
@@ -75,17 +77,36 @@ public class CardController {
 	}
 	
 	@PutMapping("/update/quantity")
-	public ResponseEntity<?> updateCard(@RequestBody UpdateCardRequest updateCardRequest, Authentication a) {
+	public ResponseEntity<?> updateCardQuantity(@RequestBody UpdateCardQuantityRequest updateCardQuantityRequest, Authentication a) {
 		//first need to check if it exists
 		
-		if (cardService.isCardInDatabase(a.getName(), updateCardRequest.getCardName())) {
-			cardService.updateCardCount(a.getName(), updateCardRequest);
-			return new ResponseEntity<>("Card in your collection is updated.", HttpStatus.OK);
+		if (cardService.isCardInDatabase(a.getName(), updateCardQuantityRequest.getCardName())) {
+			cardService.updateCardCount(a.getName(), updateCardQuantityRequest);
+			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.getCardName() + "'s count has been updated.", HttpStatus.OK);
 		} else {
-			return new ResponseEntity<>("That card is not in your collection.", HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.getCardName() + " could not be found.", HttpStatus.NOT_FOUND);
 		}
 		
 	}
 	
-	//add PutMappings for updating card name, card type in case user typos while sending a RequestBody
+	
+	@PutMapping("/update/card_name") 
+	public ResponseEntity<?> updateCardName(@RequestBody UpdateCardNameRequest updateCardNameRequest, Authentication a) {
+		if (cardService.isCardInDatabase(a.getName(), updateCardNameRequest.getNewCardName())) {
+			cardService.updateCardName(a.getName(), updateCardNameRequest);
+			return new ResponseEntity<>("Card name: " + updateCardNameRequest.getOldCardName() + " has been updated to: " + updateCardNameRequest.getNewCardName(), HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>("Card name: " + updateCardNameRequest.getOldCardName() + " could not be found.", HttpStatus.NOT_FOUND);
+		}
+	} 
+	
+	@PutMapping("/update/card_type")
+	public ResponseEntity<?> updateCardType(@RequestBody UpdateCardTypeRequest updateCardTypeRequest, Authentication a) {
+			if (cardService.isCardInDatabase(a.getName(), updateCardTypeRequest.getCardName())) {
+				cardService.updateCardType(a.getName(), updateCardTypeRequest);
+				return new ResponseEntity<>("Card name: " + updateCardTypeRequest.getCardName() + "'s card type has been updated to: " + updateCardTypeRequest.getNewCardType(), HttpStatus.OK);
+			} else {
+				return new ResponseEntity<>("Card name: " + updateCardTypeRequest.getCardName() + " could not be found.", HttpStatus.NOT_FOUND);
+			}
+	}
 }

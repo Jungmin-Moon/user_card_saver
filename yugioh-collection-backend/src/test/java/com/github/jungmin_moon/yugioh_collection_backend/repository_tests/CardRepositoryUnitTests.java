@@ -8,7 +8,7 @@ import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 
-import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardQuantityRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 import com.github.jungmin_moon.yugioh_collection_backend.repositories.CardRepository;
 
@@ -68,7 +68,7 @@ public class CardRepositoryUnitTests {
 		
 		int newQuantity = 5;
 		
-		UpdateCardRequest updateCardRequest = new UpdateCardRequest();
+		UpdateCardQuantityRequest updateCardRequest = new UpdateCardQuantityRequest();
 		
 		updateCardRequest.setCardName("Dark Magician");
 		updateCardRequest.setUpdatedQuanity(newQuantity);

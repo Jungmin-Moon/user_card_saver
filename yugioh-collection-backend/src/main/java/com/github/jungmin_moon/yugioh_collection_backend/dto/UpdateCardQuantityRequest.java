@@ -2,7 +2,7 @@ package com.github.jungmin_moon.yugioh_collection_backend.dto;
 
 import jakarta.validation.constraints.NotNull;
 
-public class UpdateCardRequest {
+public class UpdateCardQuantityRequest {
 
 	
 	@NotNull
@@ -10,9 +10,6 @@ public class UpdateCardRequest {
 	
 	@NotNull
 	private int updatedQuanity;
-	
-	@NotNull
-	private String cardType;
 
 	public String getCardName() {
 		return cardName;
@@ -29,12 +26,5 @@ public class UpdateCardRequest {
 	public void setUpdatedQuanity(int updatedQuanity) {
 		this.updatedQuanity = updatedQuanity;
 	}
-	
-	public String getCardType() {
-		return cardType;
-	}
-	
-	public void setCardType(String cardType) {
-		this.cardType = cardType;
-	}
+
 }
