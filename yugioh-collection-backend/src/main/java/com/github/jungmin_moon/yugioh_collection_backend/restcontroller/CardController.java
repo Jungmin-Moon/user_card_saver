@@ -31,7 +31,7 @@ public class CardController {
 	@GetMapping("/countAll")
 	public String cardCollection(Authentication a) {
 		
-		return a.getName() + " you currently own " + cardService.returnCollectionCount(a.getName() + " cards.");
+		return a.getName() + " you currently own " + cardService.returnCollectionCount(a.getName()) + " cards.";
 		
 	} 
 	
@@ -52,15 +52,26 @@ public class CardController {
 	@GetMapping("/{quantity:[1-9]*}")
 	public String getCardsByQuantity(Authentication a, @RequestParam int quantity) {
 		
-		
-		
-		return "";
+		 var cardsByQuantity = cardService.getCardsByQuantity(a.getName(), quantity);
+		 
+		 if (cardsByQuantity.size() == 0) {
+			 return "You have no cards in your collection that are exactly " + quantity + " copies.";
+		 } else {
+			 return cardService.cardListPrinter(cardsByQuantity);
+		 }
 	}
 	
-	@GetMapping()
+	@GetMapping("/word/{wordToSearch:[0-9a-zA-Z\\s&.]*}")
 	public String getCardsWithWordInName(Authentication a, @RequestParam String wordToSearch) {
 		
-		return "";
+		var cardsWithWordInName = cardService.getCardsWithWordInName(a.getName(), wordToSearch);
+		
+		if (cardsWithWordInName.size() == 0) {
+			return "No cards in your collection have the word: " + wordToSearch + " in them.";
+		} else {
+			return cardService.cardListPrinter(cardsWithWordInName);
+		}
+		
 	}
 	
 	//should implemenet a way to check if the card is real or not but for now, anything can be added

@@ -1,5 +1,7 @@
 package com.github.jungmin_moon.yugioh_collection_backend.services;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.github.jungmin_moon.yugioh_collection_backend.dto.NewCardRequest;
@@ -30,6 +32,13 @@ public class CardService {
 		return cardRepository.getCardInfo(username, cardName);
 	}
 	
+	public List<Card> getCardsByQuantity(String username, int quantity) {
+		return cardRepository.getCardsByQuantity(username, quantity);
+	}
+	
+	public List<Card> getCardsWithWordInName(String username, String wordToFind) {
+		return cardRepository.getCardsWithWordInName(username, wordToFind);
+	}
 	
 	//Methods that modify the database by adding, updating or deleting if there are methods for it
 	public void addCard(String username, NewCardRequest newCardRequest) {
@@ -77,5 +86,17 @@ public class CardService {
 		}
 		
 		return inDatabase;
+	}
+	
+	public String cardListPrinter(List<Card> cardList) {
+		StringBuilder str = new StringBuilder();
+		
+		for (Card c: cardList) {
+			str.append("Card Name: " + c.getCardName() + "\n");
+			str.append("Card Type: " + c.getCardType() + "\n");
+			str.append("Number Owned: " + c.getQuantity() + "\n" + "\n");
+		}
+		
+		return str.toString();
 	}
 }
