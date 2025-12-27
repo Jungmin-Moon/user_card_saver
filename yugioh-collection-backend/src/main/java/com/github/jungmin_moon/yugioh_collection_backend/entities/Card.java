@@ -29,16 +29,6 @@ public class Card {
 	@NotNull
 	private String username;
 
-	/*
-	public Card(long id, @NotNull String cardName, @NotNull String cardType,
-			@NotNull @Size(min = 0, max = 3) int quantity, @NotNull String username) {
-		super();
-		this.id = id;
-		this.cardName = cardName;
-		this.cardType = cardType;
-		this.quantity = quantity;
-		this.username = username;
-	} */
 
 	public long getId() {
 		return id;

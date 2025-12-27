@@ -22,9 +22,8 @@ public class Decks {
 	@NotNull
 	private String deckName;
 	
-	//Will have the ids of each card that belong to specific user as a comma separated list of strings
-	private String mainDeck;
-	private String sideDeck;
+	@NotNull
+	private String deckLocation;
 	
 	private String username;
 	
@@ -33,19 +32,6 @@ public class Decks {
 	
 	@Transient
 	private List<Card> sideDeckList;
-
-	/*
-	public Decks(long id, @NotNull String deckName, String mainDeck, String sideDeck, String username,
-			List<Card> mainDeckList, List<Card> sideDeckList) {
-		super();
-		this.id = id;
-		this.deckName = deckName;
-		this.mainDeck = mainDeck;
-		this.sideDeck = sideDeck;
-		this.username = username;
-		this.mainDeckList = mainDeckList;
-		this.sideDeckList = sideDeckList;
-	} */
 
 	public long getId() {
 		return id;
@@ -63,20 +49,12 @@ public class Decks {
 		this.deckName = deckName;
 	}
 
-	public String getMainDeck() {
-		return mainDeck;
+	public String getDeckLocation() {
+		return deckLocation;
 	}
 
-	public void setMainDeck(String mainDeck) {
-		this.mainDeck = mainDeck;
-	}
-
-	public String getSideDeck() {
-		return sideDeck;
-	}
-
-	public void setSideDeck(String sideDeck) {
-		this.sideDeck = sideDeck;
+	public void setDeckLocation(String deckLocation) {
+		this.deckLocation = deckLocation;
 	}
 
 	public String getUsername() {
