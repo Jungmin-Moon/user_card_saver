@@ -77,9 +77,9 @@ public class CardController {
 	//should implemenet a way to check if the card is real or not but for now, anything can be added
 	@PostMapping("/add")
 	public ResponseEntity<?> addCard(@RequestBody NewCardRequest newCardRequest, Authentication a) {
-		if (cardService.isCardInDatabase(a.getName(), newCardRequest.getCardName())) {
+		if (cardService.isCardInDatabase(a.getName(), newCardRequest.cardName())) {
 			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.FOUND);
-		} else if (cardService.quantityGreaterThanZero(newCardRequest.getQuantity())){
+		} else if (cardService.quantityGreaterThanZero(newCardRequest.quantity())){
 			cardService.addCard(a.getName(), newCardRequest);
 			return new ResponseEntity<>("Card added to your collection", HttpStatus.CREATED);
 		} else {

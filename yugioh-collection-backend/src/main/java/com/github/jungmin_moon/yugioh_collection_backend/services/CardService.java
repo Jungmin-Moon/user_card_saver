@@ -44,9 +44,9 @@ public class CardService {
 	public void addCard(String username, NewCardRequest newCardRequest) {
 		Card card = new Card();
 		
-		card.setCardName(newCardRequest.getCardName());
-		card.setCardType(newCardRequest.getCardType());
-		card.setQuantity(newCardRequest.getQuantity());
+		card.setCardName(newCardRequest.cardName());
+		card.setCardType(newCardRequest.cardType());
+		card.setQuantity(newCardRequest.quantity());
 		card.setUsername(username);
 		
 		cardRepository.save(card);

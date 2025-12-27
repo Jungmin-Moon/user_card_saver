@@ -14,6 +14,10 @@ public class DeckService {
 	}
 	
 	
+	/*
+	public boolean addCardToMainDeck(String username, ) {
+		
+	} */
 	
 	//Helper method to check user made sure to say card should be added to Main Deck or Side Deck, will make it so capitalization doesn't matter
 	public boolean validDeckLocation(String deckLocation) {
