@@ -122,4 +122,86 @@ public class CardRepositoryUnitTests {
 		
 		assertThat(cardRepository.getCardInfo("TestUser3", card.getCardName()).getCardType().equals(updateCardTypeRequest.getNewCardType()));
 	} 
+	
+	@Test
+	void givenCardsCreated_whenCardsCountSame_thenSuccess() {
+		Card card1 = new Card();
+		Card card2 = new Card();
+		
+		card1.setCardName("Dark Magician");
+		card2.setCardName("Blue-Eyes White Dragon");
+		
+		card1.setCardType("Normal Monster");
+		card2.setCardType("Normal Monster");
+		
+		card1.setQuantity(4);
+		card2.setQuantity(6);
+		
+		card1.setUsername("TestUser3");
+		card2.setUsername("TestUser3");
+		
+		cardRepository.save(card1);
+		cardRepository.save(card2);
+		
+		int cardCollectionSize = cardRepository.countCardsOwned("TestUser3").size();
+		
+		assertThat(cardCollectionSize == 2);
+		
+	}
+	
+	@Test
+	void givenCardsCreated_findWithSubString_thenSuccess() {
+		Card card1 = new Card();
+		Card card2 = new Card();
+		
+		card1.setCardName("Dark Magician");
+		card2.setCardName("Blue-Eyes White Dragon");
+		
+		card1.setCardType("Normal Monster");
+		card2.setCardType("Normal Monster");
+		
+		card1.setQuantity(4);
+		card2.setQuantity(6);
+		
+		card1.setUsername("TestUser3");
+		card2.setUsername("TestUser3");
+		
+		cardRepository.save(card1);
+		cardRepository.save(card2);
+		
+		var cardsWithSubStringInName = cardRepository.getCardsWithWordInName("TestUser3", "Mag");
+		
+		assertThat(cardsWithSubStringInName.size() == 1);
+	}
+	
+	@Test
+	void givenCardsCreated_findWithGivenQuantity_thenSuccess() {
+		Card card1 = new Card();
+		Card card2 = new Card();
+		Card card3 = new Card();
+		
+		card1.setCardName("Dark Magician");
+		card2.setCardName("Blue-Eyes White Dragon");
+		card3.setCardName("Red-Eyes Black Dragon");
+		
+		card1.setCardType("Normal Monster");
+		card2.setCardType("Normal Monster");
+		card3.setCardType("Normal Monster");
+		
+		card1.setQuantity(4);
+		card2.setQuantity(6);
+		card3.setQuantity(4);
+		
+		card1.setUsername("TestUser3");
+		card2.setUsername("TestUser3");
+		card3.setUsername("TestUser3");
+		
+		cardRepository.save(card1);
+		cardRepository.save(card2);
+		cardRepository.save(card3);
+		
+		var cardsWithGivenQuantity = cardRepository.getCardsByQuantity("TestUser3", 4);
+		
+		assertThat(cardsWithGivenQuantity.size() == 2);
+	}
 }
