@@ -24,23 +24,30 @@ public class SecurityConfig {
 	UserService userService;
 	
 	SecurityConfig(UserRepository userRepository, UserService userService) {
+		
 		this.userRepository = userRepository;
 		this.userService = userService;
+		
 	}
 	
 	@Bean
 	UserDetailsService userDetailsService() {
+		
 		return new UserService(userRepository);
+		
 	} 
 	
 	@Bean
 	BCryptPasswordEncoder bCryptPasswordEncoder() {
+		
 		return new BCryptPasswordEncoder(8);
+		
 	}
 	
 	
 	@Bean
 	DaoAuthenticationProvider authenticationProvider() {
+		
 		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider(userService);
 		
 		authProvider.setPasswordEncoder(bCryptPasswordEncoder());

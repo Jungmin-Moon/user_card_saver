@@ -31,43 +31,63 @@ public class Card {
 
 
 	public long getId() {
+		
 		return id;
+		
 	}
 
 	public void setId(long id) {
+		
 		this.id = id;
+		
 	}
 
 	public String getCardName() {
+		
 		return cardName;
+		
 	}
 
 	public void setCardName(String cardName) {
+		
 		this.cardName = cardName;
+		
 	}
 
 	public String getCardType() {
+		
 		return cardType;
+		
 	}
 
 	public void setCardType(String cardType) {
+		
 		this.cardType = cardType;
+		
 	}
 
 	public int getQuantity() {
+		
 		return quantity;
+		
 	}
 
 	public void setQuantity(int quantity) {
+		
 		this.quantity = quantity;
+		
 	}
 
 	public String getUsername() {
+		
 		return username;
+		
 	}
 
 	public void setUsername(String username) {
+		
 		this.username = username;
+		
 	}
 	
 	

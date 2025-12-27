@@ -23,27 +23,39 @@ public class Decks {
 	
 
 	public long getId() {
+		
 		return id;
+		
 	}
 
 	public void setId(long id) {
+		
 		this.id = id;
+		
 	}
 
 	public String getDeckName() {
+		
 		return deckName;
+		
 	}
 
 	public void setDeckName(String deckName) {
+		
 		this.deckName = deckName;
+		
 	}
 
 	public String getUsername() {
+		
 		return username;
+		
 	}
 
 	public void setUsername(String username) {
+		
 		this.username = username;
+		
 	}
 	
 }

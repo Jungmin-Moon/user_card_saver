@@ -16,11 +16,14 @@ public class SecurityUser implements UserDetails{
 	private final User user;
 	
 	public SecurityUser(User user) {
+		
 		this.user = user;
+		
 	}
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
+		
 		SimpleGrantedAuthority authority = new SimpleGrantedAuthority("ROLE_" + user.getAuthority());
 		
 		//return List.of(new SimpleGrantedAuthority("ROLE_" + user.getAuthority()));
@@ -30,12 +33,16 @@ public class SecurityUser implements UserDetails{
 
 	@Override
 	public String getPassword() {
+		
 		return user.getPassword();
+		
 	}
 
 	@Override
 	public String getUsername() {
+		
 		return user.getUsername();
+		
 	}
 	
 	

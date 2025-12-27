@@ -25,6 +25,7 @@ public class CardController {
 	CardService cardService;
 	
 	CardController(CardService cardService) {
+		
 		this.cardService = cardService;
 	}
 	
@@ -40,9 +41,13 @@ public class CardController {
 	public String getCardInfo(Authentication a, @RequestParam String cardName) {
 		
 		if (cardService.isCardInDatabase(a.getName(), cardName) == false) {
+			
 			return "That card does not exist in your collection, " + a.getName();
+			
 		} else {
+			
 			Card card = cardService.getCardInfo(cardName, cardName);
+			
 			return "Card Name: " + card.getCardName() + "\n" + 
 					"Card Type: " + card.getCardType() + "\n" +
 					"Number Owned: " + card.getQuantity();
@@ -55,9 +60,13 @@ public class CardController {
 		 var cardsByQuantity = cardService.getCardsByQuantity(a.getName(), quantity);
 		 
 		 if (cardsByQuantity.size() == 0) {
+			 
 			 return "You have no cards in your collection that are exactly " + quantity + " copies.";
+			 
 		 } else {
+			 
 			 return cardService.cardListPrinter(cardsByQuantity);
+			 
 		 }
 	}
 	
@@ -67,9 +76,13 @@ public class CardController {
 		var cardsWithWordInName = cardService.getCardsWithWordInName(a.getName(), wordToSearch);
 		
 		if (cardsWithWordInName.size() == 0) {
+			
 			return "No cards in your collection have the word: " + wordToSearch + " in them.";
+			
 		} else {
+			
 			return cardService.cardListPrinter(cardsWithWordInName);
+			
 		}
 		
 	}
@@ -77,13 +90,28 @@ public class CardController {
 	//should implemenet a way to check if the card is real or not but for now, anything can be added
 	@PostMapping("/add")
 	public ResponseEntity<?> addCard(@RequestBody NewCardRequest newCardRequest, Authentication a) {
+		
+		if (newCardRequest.cardName() == null) {
+			
+			return new ResponseEntity<>("YOu must enter a valid card name. It can not be empty.",HttpStatus.BAD_REQUEST);
+			
+		}
+		
+		
 		if (cardService.isCardInDatabase(a.getName(), newCardRequest.cardName())) {
+			
 			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.FOUND);
+			
 		} else if (cardService.quantityGreaterThanZero(newCardRequest.quantity())){
+			
 			cardService.addCard(a.getName(), newCardRequest);
+			
 			return new ResponseEntity<>("Card added to your collection", HttpStatus.CREATED);
+			
 		} else {
+			
 			return new ResponseEntity<>("Card quantity must be greater than zero.", HttpStatus.BAD_REQUEST);
+			
 		}
 	}
 	
@@ -92,10 +120,15 @@ public class CardController {
 		//first need to check if it exists
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardQuantityRequest.getCardName())) {
+			
 			cardService.updateCardCount(a.getName(), updateCardQuantityRequest);
+			
 			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.getCardName() + "'s count has been updated.", HttpStatus.OK);
+			
 		} else {
+			
 			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.getCardName() + " could not be found.", HttpStatus.NOT_FOUND);
+			
 		}
 		
 	}
@@ -103,20 +136,36 @@ public class CardController {
 	
 	@PutMapping("/update/card_name") 
 	public ResponseEntity<?> updateCardName(@RequestBody UpdateCardNameRequest updateCardNameRequest, Authentication a) {
-		if (cardService.isCardInDatabase(a.getName(), updateCardNameRequest.getNewCardName())) {
+		
+		if (updateCardNameRequest.newCardName() == null || updateCardNameRequest.oldCardName() == null) {
+			
+			return new ResponseEntity<>("You must provide a value for the old card name and new card name.", HttpStatus.BAD_REQUEST);
+		}
+		
+		if (cardService.isCardInDatabase(a.getName(), updateCardNameRequest.newCardName())) {
+			
 			cardService.updateCardName(a.getName(), updateCardNameRequest);
-			return new ResponseEntity<>("Card name: " + updateCardNameRequest.getOldCardName() + " has been updated to: " + updateCardNameRequest.getNewCardName(), HttpStatus.OK);
+			
+			return new ResponseEntity<>("Card name: " + updateCardNameRequest.oldCardName() + " has been updated to: " + updateCardNameRequest.newCardName(), HttpStatus.OK);
+			
 		} else {
-			return new ResponseEntity<>("Card name: " + updateCardNameRequest.getOldCardName() + " could not be found.", HttpStatus.NOT_FOUND);
+			
+			return new ResponseEntity<>("Card name: " + updateCardNameRequest.oldCardName() + " could not be found.", HttpStatus.NOT_FOUND);
+			
 		}
 	} 
 	
 	@PutMapping("/update/card_type")
 	public ResponseEntity<?> updateCardType(@RequestBody UpdateCardTypeRequest updateCardTypeRequest, Authentication a) {
+		
 			if (cardService.isCardInDatabase(a.getName(), updateCardTypeRequest.getCardName())) {
+				
 				cardService.updateCardType(a.getName(), updateCardTypeRequest);
+				
 				return new ResponseEntity<>("Card name: " + updateCardTypeRequest.getCardName() + "'s card type has been updated to: " + updateCardTypeRequest.getNewCardType(), HttpStatus.OK);
+				
 			} else {
+				
 				return new ResponseEntity<>("Card name: " + updateCardTypeRequest.getCardName() + " could not be found.", HttpStatus.NOT_FOUND);
 			}
 	}

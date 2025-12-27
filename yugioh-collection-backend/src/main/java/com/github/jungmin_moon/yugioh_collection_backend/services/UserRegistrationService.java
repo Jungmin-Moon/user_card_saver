@@ -11,15 +11,17 @@ import com.github.jungmin_moon.yugioh_collection_backend.repositories.UserReposi
 public class UserRegistrationService {
 
 	BCryptPasswordEncoder bCryptPasswordEncoder;
-	//UserService userService;
 	UserRepository userRepository;
 	
 	UserRegistrationService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+		
 		this.userRepository = userRepository;
 		this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+		
 	}
 	
 	public void registerUser(RegisterRequest registerRequest) {
+		
 		User user = new User();
 				
 		user.setUsername(registerRequest.getUsername());

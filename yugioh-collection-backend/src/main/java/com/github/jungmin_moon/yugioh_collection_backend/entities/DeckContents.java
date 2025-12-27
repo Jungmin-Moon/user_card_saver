@@ -21,35 +21,51 @@ public class DeckContents {
 	private String cardLocation;
 
 	public String getUsername() {
+		
 		return username;
+		
 	}
 
 	public void setUsername(String username) {
+		
 		this.username = username;
+		
 	}
 
 	public String getCardName() {
+		
 		return cardName;
+		
 	}
 
 	public void setCardName(String cardName) {
+		
 		this.cardName = cardName;
+		
 	}
 
 	public String getDeckName() {
+		
 		return deckName;
+		
 	}
 
 	public void setDeckName(String deckName) {
+		
 		this.deckName = deckName;
+		
 	}
 
 	public String getCardLocation() {
+		
 		return cardLocation;
+		
 	}
 
 	public void setCardLocation(String cardLocation) {
+		
 		this.cardLocation = cardLocation;
+		
 	}
 	
 	

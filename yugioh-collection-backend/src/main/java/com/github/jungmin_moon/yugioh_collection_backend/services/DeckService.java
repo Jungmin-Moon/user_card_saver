@@ -10,7 +10,9 @@ public class DeckService {
 	DeckRepository deckRepository;
 	
 	DeckService(DeckRepository deckRepository) {
+		
 		this.deckRepository = deckRepository;
+		
 	}
 	
 	
@@ -25,7 +27,9 @@ public class DeckService {
 		boolean correctLocationSpelling = false;
 		
 		if (deckLocation.equalsIgnoreCase("main deck") || deckLocation.equalsIgnoreCase("side deck")) {
+			
 			correctLocationSpelling = true;
+			
 		}
 		
 		return correctLocationSpelling;

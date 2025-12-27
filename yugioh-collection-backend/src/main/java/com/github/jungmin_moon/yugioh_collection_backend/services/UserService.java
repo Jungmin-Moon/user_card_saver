@@ -15,7 +15,9 @@ public class UserService implements UserDetailsService{
 	private UserRepository userRepository;
 
 	public UserService(UserRepository userRepository) {
+		
 		this.userRepository = userRepository;
+		
 	}
 	
 	@Override
@@ -32,14 +34,19 @@ public class UserService implements UserDetailsService{
 
 	
 	public boolean doesUserAlreadyExist(String username) {
+		
 		boolean doesAlreadyExist = false;
 		
 		User checkUser = userRepository.findByUsername(username);
 		
 		if (checkUser == null) {
+			
 			doesAlreadyExist = false;
+			
 		} else {
+			
 			doesAlreadyExist = true;
+			
 		}
 		
 		return doesAlreadyExist;
