@@ -24,6 +24,7 @@ public class CardRepositoryUnitTests {
 	@Autowired
 	TestEntityManager entityManager;
 	
+	
 	@Test
 	void givenNewCard_whenSave_thenSuccess() {
 		Card card = new Card();
@@ -37,7 +38,7 @@ public class CardRepositoryUnitTests {
 		Card insertedCard = cardRepository.save(card);
 		
 		assertThat(entityManager.find(Card.class, insertedCard.getId())).isEqualTo(card);
-	}
+	} 
 	
 	@Test
 	void givenCardCreated_whenFindByName_thenSuccess() {
@@ -70,12 +71,9 @@ public class CardRepositoryUnitTests {
 		
 		int newQuantity = 5;
 		
-		UpdateCardQuantityRequest updateCardRequest = new UpdateCardQuantityRequest();
+		UpdateCardQuantityRequest updateCardRequest = new UpdateCardQuantityRequest("Dark Magician", newQuantity);
 		
-		updateCardRequest.setCardName("Dark Magician");
-		updateCardRequest.setUpdatedQuanity(newQuantity);
-		
-		cardRepository.updateCardQuantity("TestUser3", updateCardRequest.getUpdatedQuanity(), updateCardRequest.getCardName());
+		cardRepository.updateCardQuantity("TestUser3", updateCardRequest.updatedQuantity(), updateCardRequest.cardName());
 		
 		assertThat(cardRepository.getCardInfo("TestUser3", "Dark Magician").getQuantity() == newQuantity);
 	}
@@ -91,15 +89,13 @@ public class CardRepositoryUnitTests {
 		
 		cardRepository.save(card);
 		
-		UpdateCardNameRequest updateCardNameRequest = new UpdateCardNameRequest();
-		updateCardNameRequest.setOldCardName("Dark Magician");
-		updateCardNameRequest.setNewCardName("Dark Magician of Chaos");
+		UpdateCardNameRequest updateCardNameRequest = new UpdateCardNameRequest("Dark Magician", "Dark Magician of Chaos");
 		
 		long id = cardRepository.getCardInfo("TestUser3", "Dark Magician").getId();
 		
-		cardRepository.updateCardName("TestUser3", updateCardNameRequest.getOldCardName(), updateCardNameRequest.getNewCardName());
+		cardRepository.updateCardName("TestUser3", updateCardNameRequest.oldCardName(), updateCardNameRequest.newCardName());
 		
-		assertThat(cardRepository.getReferenceById(id).getCardName().equals(updateCardNameRequest.getNewCardName()));
+		assertThat(cardRepository.getReferenceById(id).getCardName().equals(updateCardNameRequest.newCardName()));
 	}
 	
 	
@@ -114,13 +110,11 @@ public class CardRepositoryUnitTests {
 		
 		cardRepository.save(card);
 		
-		UpdateCardTypeRequest updateCardTypeRequest = new UpdateCardTypeRequest();
-		updateCardTypeRequest.setCardName("Dark Magician");
-		updateCardTypeRequest.setNewCardType("Effect Monster");
+		UpdateCardTypeRequest updateCardTypeRequest = new UpdateCardTypeRequest("Dark Magician", "Effect Monster");
 		
-		cardRepository.updateCardType("TestUser3", updateCardTypeRequest.getCardName(), updateCardTypeRequest.getNewCardType());
+		cardRepository.updateCardType("TestUser3", updateCardTypeRequest.cardName(), updateCardTypeRequest.newCardType());
 		
-		assertThat(cardRepository.getCardInfo("TestUser3", card.getCardName()).getCardType().equals(updateCardTypeRequest.getNewCardType()));
+		assertThat(cardRepository.getCardInfo("TestUser3", card.getCardName()).getCardType().equals(updateCardTypeRequest.newCardType()));
 	} 
 	
 	@Test

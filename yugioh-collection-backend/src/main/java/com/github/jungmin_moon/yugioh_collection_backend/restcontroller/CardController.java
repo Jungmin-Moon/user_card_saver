@@ -117,17 +117,23 @@ public class CardController {
 	
 	@PutMapping("/update/quantity")
 	public ResponseEntity<?> updateCardQuantity(@RequestBody UpdateCardQuantityRequest updateCardQuantityRequest, Authentication a) {
-		//first need to check if it exists
 		
-		if (cardService.isCardInDatabase(a.getName(), updateCardQuantityRequest.getCardName())) {
+		if (updateCardQuantityRequest.cardName() == null || updateCardQuantityRequest.updatedQuantity() < 0) {
+			
+			return new ResponseEntity<>("Card name must not be empty or new quantity must be 0 or greater.", HttpStatus.BAD_REQUEST);
+			
+		}
+		
+		
+		if (cardService.isCardInDatabase(a.getName(), updateCardQuantityRequest.cardName())) {
 			
 			cardService.updateCardCount(a.getName(), updateCardQuantityRequest);
 			
-			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.getCardName() + "'s count has been updated.", HttpStatus.OK);
+			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.cardName() + "'s count has been updated.", HttpStatus.OK);
 			
 		} else {
 			
-			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.getCardName() + " could not be found.", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Card name: " + updateCardQuantityRequest.cardName() + " could not be found.", HttpStatus.NOT_FOUND);
 			
 		}
 		
@@ -157,16 +163,23 @@ public class CardController {
 	
 	@PutMapping("/update/card_type")
 	public ResponseEntity<?> updateCardType(@RequestBody UpdateCardTypeRequest updateCardTypeRequest, Authentication a) {
+			
+		if (updateCardTypeRequest.cardName() == null || updateCardTypeRequest.newCardType() == null) {
+			
+			return new ResponseEntity<>("The card name or the card type can not be empty.", HttpStatus.BAD_REQUEST);
+			
+		}
 		
-			if (cardService.isCardInDatabase(a.getName(), updateCardTypeRequest.getCardName())) {
+		
+		if (cardService.isCardInDatabase(a.getName(), updateCardTypeRequest.cardName())) {
 				
-				cardService.updateCardType(a.getName(), updateCardTypeRequest);
+			cardService.updateCardType(a.getName(), updateCardTypeRequest);
 				
-				return new ResponseEntity<>("Card name: " + updateCardTypeRequest.getCardName() + "'s card type has been updated to: " + updateCardTypeRequest.getNewCardType(), HttpStatus.OK);
+			return new ResponseEntity<>("Card name: " + updateCardTypeRequest.cardName() + "'s card type has been updated to: " + updateCardTypeRequest.newCardType(), HttpStatus.OK);
 				
-			} else {
+		} else {
 				
-				return new ResponseEntity<>("Card name: " + updateCardTypeRequest.getCardName() + " could not be found.", HttpStatus.NOT_FOUND);
-			}
+			return new ResponseEntity<>("Card name: " + updateCardTypeRequest.cardName() + " could not be found.", HttpStatus.NOT_FOUND);
+		}
 	}
 }

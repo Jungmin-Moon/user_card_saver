@@ -64,7 +64,7 @@ public class CardService {
 	
 	public void updateCardCount(String username, UpdateCardQuantityRequest updateCardQuantityRequest) {
 		
-		cardRepository.updateCardQuantity(username, updateCardQuantityRequest.getUpdatedQuanity(), updateCardQuantityRequest.getCardName());
+		cardRepository.updateCardQuantity(username, updateCardQuantityRequest.updatedQuantity(), updateCardQuantityRequest.cardName());
 		
 	}
 	
@@ -76,7 +76,7 @@ public class CardService {
 	
 	public void updateCardType(String username, UpdateCardTypeRequest updateCardTypeRequest) {
 		
-		cardRepository.updateCardType(username, updateCardTypeRequest.getCardName(), updateCardTypeRequest.getNewCardType());
+		cardRepository.updateCardType(username, updateCardTypeRequest.cardName(), updateCardTypeRequest.newCardType());
 		
 	}
 	
