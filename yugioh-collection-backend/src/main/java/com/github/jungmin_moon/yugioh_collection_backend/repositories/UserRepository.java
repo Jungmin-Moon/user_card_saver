@@ -9,4 +9,5 @@ import com.github.jungmin_moon.yugioh_collection_backend.entities.User;
 public interface UserRepository extends JpaRepository<User, Long>{
 	
 	User findByUsername(String username);
+	
 }

@@ -11,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 @Table(name = "Decks")
 public class Decks {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -21,7 +20,6 @@ public class Decks {
 	
 	private String username;
 	
-
 	public long getId() {
 		
 		return id;

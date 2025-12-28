@@ -137,7 +137,7 @@ public class CardRepositoryUnitTests {
 		cardRepository.save(card1);
 		cardRepository.save(card2);
 		
-		int cardCollectionSize = cardRepository.countCardsOwned("TestUser3").size();
+		int cardCollectionSize = cardRepository.getAllOwnedByUsername("TestUser3").size();
 		
 		assertThat(cardCollectionSize == 2);
 		

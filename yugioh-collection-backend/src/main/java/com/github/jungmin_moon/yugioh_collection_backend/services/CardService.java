@@ -24,9 +24,15 @@ public class CardService {
 	}
 	
 	//Methods that fetch information either as a single card or multiple cards 
+	
+	public List<Card> getAll(String username) {
+		return cardRepository.getAllOwnedByUsername(username);
+	}
+	
+	
 	public int returnCollectionCount(String username) {
 		
-		var collectionList = cardRepository.countCardsOwned(username);
+		var collectionList = cardRepository.getAllOwnedByUsername(username);
 		
 		return collectionList.size();
 	}

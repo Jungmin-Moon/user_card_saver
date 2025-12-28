@@ -14,12 +14,10 @@ import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 public interface CardRepository extends JpaRepository<Card, Long> {
 	
 	@Query("SELECT c FROM Card c WHERE c.username = :username")
-	List<Card> countCardsOwned(@Param("username") String username);
-	
+	List<Card> getAllOwnedByUsername(@Param("username") String username);
 	
 	@Query("SELECT c FROM Card c WHERE c.username = :username AND c.cardName = :cardName")
 	Card getCardInfo(@Param("username") String username, @Param("cardName") String cardName);
-	
 	
 	@Query("SELECT c FROM Card c WHERE c.username = :username AND c.quantity = :quantity")
 	List<Card> getCardsByQuantity(@Param("username") String username, @Param("quantity")int quantity);

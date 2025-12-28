@@ -29,13 +29,19 @@ public class CardController {
 		this.cardService = cardService;
 	}
 	
+	@GetMapping()
+	public String getAll(Authentication a) {
+		
+		return cardService.cardListPrinter(cardService.getAll(a.getName()));
+		
+	}
+	
 	@GetMapping("/countAll")
 	public String cardCollection(Authentication a) {
 		
 		return a.getName() + " you currently own " + cardService.returnCollectionCount(a.getName()) + " cards.";
 		
 	} 
-	
 	
 	@GetMapping("/{cardName:[0-9a-zA-Z\s&.]*}")
 	public String getCardInfo(Authentication a, @RequestParam String cardName) {

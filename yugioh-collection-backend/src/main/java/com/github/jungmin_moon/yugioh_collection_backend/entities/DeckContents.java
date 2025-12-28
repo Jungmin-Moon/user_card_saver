@@ -27,6 +27,9 @@ public class DeckContents {
 	@NotNull
 	private String cardLocation;
 	
+	@NotNull
+	private int quantity;
+	
 	public long getId() {
 		return id;
 	}
@@ -81,6 +84,14 @@ public class DeckContents {
 		
 		this.cardLocation = cardLocation;
 		
+	}
+	
+	public int getQuantity() {
+		return quantity;
+	}
+	
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
 	}
 	
 	

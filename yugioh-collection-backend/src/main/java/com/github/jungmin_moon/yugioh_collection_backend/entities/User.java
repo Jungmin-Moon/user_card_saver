@@ -16,7 +16,6 @@ import jakarta.validation.constraints.Size;
 @Table(name = "USERS")
 public class User {
 
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
@@ -30,9 +29,6 @@ public class User {
 	
 	@NotNull
 	private String authority;
-	
-	@Transient
-	private List<Card> cardCollection;
 
 	public long getId() {
 		
@@ -80,20 +76,6 @@ public class User {
 		
 		this.authority = authority;
 		
-	}
-
-	public List<Card> getCardCollection() {
-		
-		return cardCollection;
-		
-	}
-
-	public void setCardCollection(List<Card> cardCollection) {
-		
-		this.cardCollection = cardCollection;
-		
-	}
-	
-	
+	}	
 	
 }
