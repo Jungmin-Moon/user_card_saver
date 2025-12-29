@@ -2,6 +2,8 @@ package com.github.jungmin_moon.yugioh_collection_backend.services;
 
 import org.springframework.stereotype.Service;
 
+import com.github.jungmin_moon.yugioh_collection_backend.dto.NewDeckRequest;
+import com.github.jungmin_moon.yugioh_collection_backend.entities.Decks;
 import com.github.jungmin_moon.yugioh_collection_backend.repositories.DeckRepository;
 
 @Service
@@ -13,6 +15,14 @@ public class DeckService {
 		
 		this.deckRepository = deckRepository;
 		
+	}
+	
+	public void createDeck(String username, NewDeckRequest newDeckRequest) {
+		Decks deck = new Decks();
+		deck.setUsername(username);
+		deck.setDeckName(newDeckRequest.deckName());
+		
+		deckRepository.save(deck);
 	}
 	
 	

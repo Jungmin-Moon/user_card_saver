@@ -103,7 +103,6 @@ public class CardController {
 			
 		}
 		
-		
 		if (cardService.isCardInDatabase(a.getName(), newCardRequest.cardName())) {
 			
 			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.FOUND);
@@ -129,7 +128,6 @@ public class CardController {
 			return new ResponseEntity<>("Card name must not be empty or new quantity must be 0 or greater.", HttpStatus.BAD_REQUEST);
 			
 		}
-		
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardQuantityRequest.cardName())) {
 			
@@ -175,7 +173,6 @@ public class CardController {
 			return new ResponseEntity<>("The card name or the card type can not be empty.", HttpStatus.BAD_REQUEST);
 			
 		}
-		
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardTypeRequest.cardName())) {
 				
