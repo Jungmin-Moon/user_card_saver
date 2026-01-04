@@ -1,5 +1,7 @@
 package com.github.jungmin_moon.yugioh_collection_backend.dto;
 
-public record UpdateCardNameRequest(String oldCardName, String newCardName) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record UpdateCardNameRequest(@NotEmpty(message = "Old card name must not be null or empty.") String oldCardName, @NotEmpty(message = "New card name must not be null or empty.") String newCardName) {
 
 }

@@ -18,6 +18,8 @@ import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardTypeReque
 import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/card")
 public class CardController {
@@ -95,29 +97,18 @@ public class CardController {
 	
 	//should implemenet a way to check if the card is real or not but for now, anything can be added
 	@PostMapping("/add")
-	public ResponseEntity<?> addCard(@RequestBody NewCardRequest newCardRequest, Authentication a) {
-		
-		if (newCardRequest.cardName() == null) {
-			
-			return new ResponseEntity<>("YOu must enter a valid card name. It can not be empty.",HttpStatus.BAD_REQUEST);
-			
-		}
+	public ResponseEntity<?> addCard(@Valid @RequestBody NewCardRequest newCardRequest, Authentication a) {
 		
 		if (cardService.isCardInDatabase(a.getName(), newCardRequest.cardName())) {
 			
 			return new ResponseEntity<>("You have already added this card to your collection.", HttpStatus.FOUND);
 			
-		} else if (cardService.quantityGreaterThanZero(newCardRequest.quantity())){
-			
-			cardService.addCard(a.getName(), newCardRequest);
-			
-			return new ResponseEntity<>("Card added to your collection", HttpStatus.CREATED);
-			
-		} else {
-			
-			return new ResponseEntity<>("Card quantity must be greater than zero.", HttpStatus.BAD_REQUEST);
-			
 		}
+			
+		cardService.addCard(a.getName(), newCardRequest);
+			
+		return new ResponseEntity<>("Card added to your collection", HttpStatus.CREATED);
+			
 	}
 	
 	@PutMapping("/update/quantity")

@@ -3,6 +3,7 @@ package com.github.jungmin_moon.yugioh_collection_backend.services;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.github.jungmin_moon.yugioh_collection_backend.dto.NewCardRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardNameRequest;
@@ -26,6 +27,7 @@ public class CardService {
 	//Methods that fetch information either as a single card or multiple cards 
 	
 	public List<Card> getAll(String username) {
+		
 		return cardRepository.getAllOwnedByUsername(username);
 	}
 	
@@ -56,6 +58,8 @@ public class CardService {
 	}
 	
 	//Methods that modify the database by adding, updating or deleting if there are methods for it
+	
+	@Transactional
 	public void addCard(String username, NewCardRequest newCardRequest) {
 		
 		Card card = new Card();
@@ -68,18 +72,21 @@ public class CardService {
 		cardRepository.save(card);
 	}
 	
+	@Transactional
 	public void updateCardCount(String username, UpdateCardQuantityRequest updateCardQuantityRequest) {
 		
 		cardRepository.updateCardQuantity(username, updateCardQuantityRequest.updatedQuantity(), updateCardQuantityRequest.cardName());
 		
 	}
 	
+	@Transactional
 	public void updateCardName(String username, UpdateCardNameRequest updateCardNameRequest) {
 		
 		cardRepository.updateCardName(username, updateCardNameRequest.oldCardName(), updateCardNameRequest.newCardName());
 		
 	}
 	
+	@Transactional
 	public void updateCardType(String username, UpdateCardTypeRequest updateCardTypeRequest) {
 		
 		cardRepository.updateCardType(username, updateCardTypeRequest.cardName(), updateCardTypeRequest.newCardType());
@@ -120,14 +127,21 @@ public class CardService {
 		
 		StringBuilder str = new StringBuilder();
 		
-		for (Card c: cardList) {
+		if (cardList.size() == 0) {
+			return str.append("You own no cards in your collection.").toString();
+		} else {
+		
+			for (Card c: cardList) {
 			
-			str.append("Card Name: " + c.getCardName() + "\n");
-			str.append("Card Type: " + c.getCardType() + "\n");
-			str.append("Number Owned: " + c.getQuantity() + "\n" + "\n");
+				str.append("Card Name: " + c.getCardName() + "\n");
+				str.append("Card Type: " + c.getCardType() + "\n");
+				str.append("Number Owned: " + c.getQuantity() + "\n" + "\n");
+			
+			}
+			
+			return str.toString();
 			
 		}
 		
-		return str.toString();
 	}
 }

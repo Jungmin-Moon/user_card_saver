@@ -1,5 +1,13 @@
 package com.github.jungmin_moon.yugioh_collection_backend.dto;
 
-public record DeckRemoveRequest(String username, String cardName, String deckName, String deckLocation, int quantity) {
+import org.hibernate.validator.constraints.Range;
+
+import jakarta.validation.constraints.NotEmpty;
+
+public record DeckRemoveRequest(@NotEmpty(message = "Username must not be null or empty.")String username, 
+								@NotEmpty(message = "Card name must not be null or empty.") String cardName, 
+								@NotEmpty(message = "Deck name must not be null or empty.") String deckName, 
+								@NotEmpty(message = "Deck location must not be null or empty.") String deckLocation, 
+								@Range(min = 1, message = "Quantity must be 1 or greater.") int quantity) {
 
 }

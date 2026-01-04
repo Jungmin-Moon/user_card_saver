@@ -5,8 +5,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name = "Card")
@@ -16,16 +14,12 @@ public class Card {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	
-	@NotNull
 	private String cardName;
 	
-	@NotNull
 	private String cardType;
 	
-	@NotNull
 	private int quantity;
 	
-	@NotNull
 	private String username;
 
 
