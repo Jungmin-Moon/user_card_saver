@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,8 +46,8 @@ public class CardController {
 		
 	} 
 	
-	@GetMapping("/{cardName:[0-9a-zA-Z\s&.]*}")
-	public String getCardInfo(Authentication a, @RequestParam String cardName) {
+	@GetMapping("/{cardName:[0-9a-zA-Z &.]*}")
+	public String getCardInfo(Authentication a, @PathVariable String cardName) {
 		
 		if (cardService.isCardInDatabase(a.getName(), cardName) == false) {
 			
@@ -54,7 +55,7 @@ public class CardController {
 			
 		} else {
 			
-			Card card = cardService.getCardInfo(cardName, cardName);
+			Card card = cardService.getCardInfo(a.getName(), cardName);
 			
 			return "Card Name: " + card.getCardName() + "\n" + 
 					"Card Type: " + card.getCardType() + "\n" +
@@ -62,8 +63,8 @@ public class CardController {
 		}
 	}
 	
-	@GetMapping("/{quantity:[1-9]*}")
-	public String getCardsByQuantity(Authentication a, @RequestParam int quantity) {
+	@GetMapping("/quantity/{quantity:[1-9]*}")
+	public String getCardsByQuantity(Authentication a, @PathVariable int quantity) {
 		
 		 var cardsByQuantity = cardService.getCardsByQuantity(a.getName(), quantity);
 		 
@@ -79,7 +80,7 @@ public class CardController {
 	}
 	
 	@GetMapping("/word/{wordToSearch:[0-9a-zA-Z\\s&.]*}")
-	public String getCardsWithWordInName(Authentication a, @RequestParam String wordToSearch) {
+	public String getCardsWithWordInName(Authentication a, @PathVariable String wordToSearch) {
 		
 		var cardsWithWordInName = cardService.getCardsWithWordInName(a.getName(), wordToSearch);
 		
@@ -113,12 +114,6 @@ public class CardController {
 	
 	@PutMapping("/update/quantity")
 	public ResponseEntity<?> updateCardQuantity(@RequestBody UpdateCardQuantityRequest updateCardQuantityRequest, Authentication a) {
-		
-		if (updateCardQuantityRequest.cardName() == null || updateCardQuantityRequest.updatedQuantity() < 0) {
-			
-			return new ResponseEntity<>("Card name must not be empty or new quantity must be 0 or greater.", HttpStatus.BAD_REQUEST);
-			
-		}
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardQuantityRequest.cardName())) {
 			
