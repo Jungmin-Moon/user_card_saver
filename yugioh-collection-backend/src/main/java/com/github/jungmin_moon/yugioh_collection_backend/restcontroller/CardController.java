@@ -133,12 +133,7 @@ public class CardController {
 	@PutMapping("/update/card_name") 
 	public ResponseEntity<?> updateCardName(@RequestBody UpdateCardNameRequest updateCardNameRequest, Authentication a) {
 		
-		if (updateCardNameRequest.newCardName() == null || updateCardNameRequest.oldCardName() == null) {
-			
-			return new ResponseEntity<>("You must provide a value for the old card name and new card name.", HttpStatus.BAD_REQUEST);
-		}
-		
-		if (cardService.isCardInDatabase(a.getName(), updateCardNameRequest.newCardName())) {
+		if (cardService.isCardInDatabase(a.getName(), updateCardNameRequest.oldCardName())) {
 			
 			cardService.updateCardName(a.getName(), updateCardNameRequest);
 			
@@ -153,12 +148,6 @@ public class CardController {
 	
 	@PutMapping("/update/card_type")
 	public ResponseEntity<?> updateCardType(@RequestBody UpdateCardTypeRequest updateCardTypeRequest, Authentication a) {
-			
-		if (updateCardTypeRequest.cardName() == null || updateCardTypeRequest.newCardType() == null) {
-			
-			return new ResponseEntity<>("The card name or the card type can not be empty.", HttpStatus.BAD_REQUEST);
-			
-		}
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardTypeRequest.cardName())) {
 				

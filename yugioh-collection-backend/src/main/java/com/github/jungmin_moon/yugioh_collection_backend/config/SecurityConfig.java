@@ -64,8 +64,8 @@ public class SecurityConfig {
 			.authorizeHttpRequests(
 				c -> c
 					.requestMatchers("/card/**").hasAnyRole("USER", "ADMIN")
-					.dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.ERROR).permitAll()
 					.requestMatchers(HttpMethod.POST, "/register").permitAll()
+					.anyRequest().authenticated()
 				
 		);
 		
