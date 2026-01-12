@@ -2,6 +2,7 @@ package com.github.jungmin_moon.yugioh_collection_backend.repository_tests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
@@ -24,32 +25,46 @@ public class CardRepositoryUnitTests {
 	@Autowired
 	TestEntityManager entityManager;
 	
+	//Setup of needed objects
+	
+	Card card1 = new Card();
+	Card card2 = new Card();
+	Card card3 = new Card();
+	
+	@BeforeEach
+	void setup() {
+		
+		card1.setCardName("Dark Magician");
+		card1.setCardType("Normal Monster");
+		card1.setQuantity(4);
+		card1.setUsername("TestUser3");
+		
+		card2.setCardName("Blue-Eyes White Dragon");
+		card2.setCardType("Normal Monster");
+		card2.setQuantity(6);
+		card2.setUsername("TestUser3");
+		
+		card3.setCardName("Red-Eyes Black Dragon");
+		card3.setCardType("Normal Monster");
+		card3.setQuantity(4);
+		card3.setUsername("TestUser3");
+		
+	}
+	
+	//Success tests
 	
 	@Test
 	void givenNewCard_whenSave_thenSuccess() {
-		Card card = new Card();
 		
-		//card.setId(3);
-		card.setCardName("Dark Magician");
-		card.setCardType("Normal Monster");
-		card.setQuantity(5);
-		card.setUsername("TestUser3");
+		Card insertedCard = cardRepository.save(card1);
 		
-		Card insertedCard = cardRepository.save(card);
-		
-		assertThat(entityManager.find(Card.class, insertedCard.getId())).isEqualTo(card);
+		assertThat(entityManager.find(Card.class, insertedCard.getId())).isEqualTo(card1);
 	} 
 	
 	@Test
 	void givenCardCreated_whenFindByName_thenSuccess() {
-		Card card = new Card();
 		
-		card.setCardName("Dark Magician");
-		card.setCardType("Normal Monster");
-		card.setQuantity(5);
-		card.setUsername("TestUser3");
-		
-		cardRepository.save(card);
+		cardRepository.save(card1);
 		
 		Card retrievedCard = cardRepository.getCardInfo("TestUser3", "Dark Magician");
 		
@@ -60,14 +75,8 @@ public class CardRepositoryUnitTests {
 	
 	@Test
 	void givenCardCreated_whenUpdatedQuantity_thenSuccess() {
-		Card card = new Card();
-		
-		card.setCardName("Dark Magician");
-		card.setCardType("Normal Monster");
-		card.setQuantity(2);
-		card.setUsername("TestUser3");
-		
-		cardRepository.save(card);
+
+		cardRepository.save(card1);
 		
 		int newQuantity = 5;
 		
@@ -80,14 +89,8 @@ public class CardRepositoryUnitTests {
 	
 	@Test
 	void givenCardCreated_whenUpdatedName_thenSuccess() {
-		Card card = new Card();
 		
-		card.setCardName("Dark Magician");
-		card.setCardType("Normal Monster");
-		card.setQuantity(2);
-		card.setUsername("TestUser3");
-		
-		cardRepository.save(card);
+		cardRepository.save(card1);
 		
 		UpdateCardNameRequest updateCardNameRequest = new UpdateCardNameRequest("Dark Magician", "Dark Magician of Chaos");
 		
@@ -101,38 +104,18 @@ public class CardRepositoryUnitTests {
 	
 	@Test
 	void givenCardCreated_whenUpdatedCardType_thenSuccess() {
-		Card card = new Card();
 		
-		card.setCardName("Dark Magician");
-		card.setCardType("Normal Monster");
-		card.setQuantity(2);
-		card.setUsername("TestUser3");
-		
-		cardRepository.save(card);
+		cardRepository.save(card1);
 		
 		UpdateCardTypeRequest updateCardTypeRequest = new UpdateCardTypeRequest("Dark Magician", "Effect Monster");
 		
 		cardRepository.updateCardType("TestUser3", updateCardTypeRequest.cardName(), updateCardTypeRequest.newCardType());
 		
-		assertThat(cardRepository.getCardInfo("TestUser3", card.getCardName()).getCardType().equals(updateCardTypeRequest.newCardType()));
+		assertThat(cardRepository.getCardInfo("TestUser3", card1.getCardName()).getCardType().equals(updateCardTypeRequest.newCardType()));
 	} 
 	
 	@Test
 	void givenCardsCreated_whenCardsCountSame_thenSuccess() {
-		Card card1 = new Card();
-		Card card2 = new Card();
-		
-		card1.setCardName("Dark Magician");
-		card2.setCardName("Blue-Eyes White Dragon");
-		
-		card1.setCardType("Normal Monster");
-		card2.setCardType("Normal Monster");
-		
-		card1.setQuantity(4);
-		card2.setQuantity(6);
-		
-		card1.setUsername("TestUser3");
-		card2.setUsername("TestUser3");
 		
 		cardRepository.save(card1);
 		cardRepository.save(card2);
@@ -145,20 +128,6 @@ public class CardRepositoryUnitTests {
 	
 	@Test
 	void givenCardsCreated_findWithSubString_thenSuccess() {
-		Card card1 = new Card();
-		Card card2 = new Card();
-		
-		card1.setCardName("Dark Magician");
-		card2.setCardName("Blue-Eyes White Dragon");
-		
-		card1.setCardType("Normal Monster");
-		card2.setCardType("Normal Monster");
-		
-		card1.setQuantity(4);
-		card2.setQuantity(6);
-		
-		card1.setUsername("TestUser3");
-		card2.setUsername("TestUser3");
 		
 		cardRepository.save(card1);
 		cardRepository.save(card2);
@@ -170,25 +139,6 @@ public class CardRepositoryUnitTests {
 	
 	@Test
 	void givenCardsCreated_findWithGivenQuantity_thenSuccess() {
-		Card card1 = new Card();
-		Card card2 = new Card();
-		Card card3 = new Card();
-		
-		card1.setCardName("Dark Magician");
-		card2.setCardName("Blue-Eyes White Dragon");
-		card3.setCardName("Red-Eyes Black Dragon");
-		
-		card1.setCardType("Normal Monster");
-		card2.setCardType("Normal Monster");
-		card3.setCardType("Normal Monster");
-		
-		card1.setQuantity(4);
-		card2.setQuantity(6);
-		card3.setQuantity(4);
-		
-		card1.setUsername("TestUser3");
-		card2.setUsername("TestUser3");
-		card3.setUsername("TestUser3");
 		
 		cardRepository.save(card1);
 		cardRepository.save(card2);
@@ -198,4 +148,8 @@ public class CardRepositoryUnitTests {
 		
 		assertThat(cardsWithGivenQuantity.size() == 2);
 	}
+	
+	//Failure Tests
+	
+	
 }
