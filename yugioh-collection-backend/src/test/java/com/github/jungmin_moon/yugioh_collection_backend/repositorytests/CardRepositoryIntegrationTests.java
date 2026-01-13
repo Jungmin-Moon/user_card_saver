@@ -1,4 +1,4 @@
-package com.github.jungmin_moon.yugioh_collection_backend.repository_tests;
+package com.github.jungmin_moon.yugioh_collection_backend.repositorytests;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -17,7 +17,7 @@ import com.github.jungmin_moon.yugioh_collection_backend.repositories.CardReposi
 
 @DataJpaTest(showSql = true)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class CardRepositoryUnitTests {
+public class CardRepositoryIntegrationTests {
 	
 	@Autowired
 	CardRepository cardRepository;
@@ -148,8 +148,6 @@ public class CardRepositoryUnitTests {
 		
 		assertThat(cardsWithGivenQuantity.size() == 2);
 	}
-	
-	//Failure Tests
 	
 	
 }

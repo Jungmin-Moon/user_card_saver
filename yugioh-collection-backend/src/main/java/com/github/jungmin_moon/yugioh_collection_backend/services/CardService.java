@@ -18,7 +18,7 @@ public class CardService {
 	
 	CardRepository cardRepository;
 	
-	CardService(CardRepository cardRepository) {
+	public CardService(CardRepository cardRepository) {
 		
 		this.cardRepository = cardRepository;
 		
