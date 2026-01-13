@@ -113,7 +113,7 @@ public class CardController {
 	}
 	
 	@PutMapping("/update/quantity")
-	public ResponseEntity<?> updateCardQuantity(@RequestBody UpdateCardQuantityRequest updateCardQuantityRequest, Authentication a) {
+	public ResponseEntity<?> updateCardQuantity(@Valid @RequestBody UpdateCardQuantityRequest updateCardQuantityRequest, Authentication a) {
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardQuantityRequest.cardName())) {
 			
@@ -131,7 +131,7 @@ public class CardController {
 	
 	
 	@PutMapping("/update/card_name") 
-	public ResponseEntity<?> updateCardName(@RequestBody UpdateCardNameRequest updateCardNameRequest, Authentication a) {
+	public ResponseEntity<?> updateCardName(@Valid @RequestBody UpdateCardNameRequest updateCardNameRequest, Authentication a) {
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardNameRequest.oldCardName())) {
 			
@@ -147,7 +147,7 @@ public class CardController {
 	} 
 	
 	@PutMapping("/update/card_type")
-	public ResponseEntity<?> updateCardType(@RequestBody UpdateCardTypeRequest updateCardTypeRequest, Authentication a) {
+	public ResponseEntity<?> updateCardType(@Valid @RequestBody UpdateCardTypeRequest updateCardTypeRequest, Authentication a) {
 		
 		if (cardService.isCardInDatabase(a.getName(), updateCardTypeRequest.cardName())) {
 				
