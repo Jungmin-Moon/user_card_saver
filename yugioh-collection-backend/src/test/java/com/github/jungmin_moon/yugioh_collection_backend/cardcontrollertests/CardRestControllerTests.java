@@ -24,6 +24,11 @@ import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
 @AutoConfigureRestTestClient
 public class CardRestControllerTests {
 
+	/*
+	 * Note to change ExceptionControllerAdvice to show in an ordered way and then make sure Tests show in the correct order too.
+	 */
+	
+	
 	@Autowired
 	private RestTestClient restTestClient;
 	
@@ -190,7 +195,6 @@ public class CardRestControllerTests {
 				.content(requestBody)
 				.exchange();
 		
-		//Might change how it is stored to be in order because Postman doesn't show in this order
 		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\""
 								+ ",\"cardName\":\"Card name must not be null or empty.\"}";
 		
@@ -203,12 +207,53 @@ public class CardRestControllerTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void shouldReturnCardTypeAndQuantityErrorMessageDueToInvalidNewCardRequest() {
 		
+		String requestBody = """
+				{
+					"cardName": "Dark Magician",
+					"cardType": "",
+					"quantity": 0
+				}
+				""";
+		
+		MvcTestResult testResult = mockMvcTester.post()
+												.with(csrf())
+												.uri("/card/add")
+												.contentType(MediaType.APPLICATION_JSON)
+												.content(requestBody)
+												.exchange();
+		
+		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\""
+								+ ",\"cardType\":\"Card type must not be null or empty.\"}";
+		
+		assertThat(testResult).bodyText().isEqualTo(expectedMessage);
+		
 	}
 	
 	@Test
 	@DisplayName("Should return all three error messages for cardName, cardType and quantity")
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void shouldReturnErrorMessageForAllThreePropertiesDueToInvalidNewCardRequest() {
+		
+		String requestBody = """
+				{
+					"cardName": null,
+					"cardType": "",
+					"quantity": 0
+				}
+				""";
+		
+		MvcTestResult testResult = mockMvcTester.post()
+												.with(csrf())
+												.uri("/card/add")
+												.contentType(MediaType.APPLICATION_JSON)
+												.content(requestBody)
+												.exchange();
+		
+		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\""
+									+ ",\"cardName\":\"Card name must not be null or empty.\""
+									+ ",\"cardType\":\"Card type must not be null or empty.\"}";
+
+		assertThat(testResult).bodyText().isEqualTo(expectedMessage);
 		
 	}
 }
