@@ -190,7 +190,11 @@ public class CardRestControllerTests {
 				.content(requestBody)
 				.exchange();
 		
-		String expectedMessage = "";
+		//Might change how it is stored to be in order because Postman doesn't show in this order
+		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\""
+								+ ",\"cardName\":\"Card name must not be null or empty.\"}";
+		
+		assertThat(testResult).bodyText().isEqualTo(expectedMessage);
 		
 	}
 	
