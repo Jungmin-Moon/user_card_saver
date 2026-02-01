@@ -26,6 +26,30 @@ public class CardRestControllerPostTests {
 	MockMvcTester mockMvcTester;
 	
 	@Test
+	@DisplayName("Should return a 2xx status from a successful card add.")
+	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
+	void shouldSucceedWithProperNewCardRequest() {
+		
+		String requestBody = """
+				{
+					"cardName": "Dark Magician",
+					"cardType": "Normal Monster",
+					"quantity": 3
+				}
+				""";
+		
+		MvcTestResult testResult = mockMvcTester.post()
+												.with(csrf())
+												.uri("/card/add")
+												.contentType(MediaType.APPLICATION_JSON)
+												.content(requestBody)
+												.exchange();
+		
+		assertThat(testResult).hasStatus2xxSuccessful();
+		
+	}
+	
+	@Test
 	@DisplayName("Should return {cardName:Card name must not be null or empty.} due to the NewCardRequest object having bad cardName values")
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
 	void shouldReturnCardNameMessageDueToInvalidAddNewCardRequest() {
