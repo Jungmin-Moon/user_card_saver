@@ -7,11 +7,10 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTe
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+
 import org.springframework.test.web.servlet.client.RestTestClient;
 
 import com.github.jungmin_moon.yugioh_collection_backend.restcontroller.CardController;
-import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
 
 @WebMvcTest(CardController.class)
 @AutoConfigureRestTestClient
@@ -19,9 +18,6 @@ public class CardRestControllerGetTests {
 	
 	@Autowired
 	private RestTestClient restTestClient;
-	
-	@MockitoBean
-	private CardService cardService;
 	
 	@Test
 	@DisplayName("Should return a 401 status because they are unauthorized")
