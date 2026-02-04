@@ -1,17 +1,20 @@
 package com.github.jungmin_moon.yugioh_collection_backend.cardcontrollertests;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+
+import java.io.UnsupportedEncodingException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
+import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTestClient;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.assertj.MvcTestResult;
 
@@ -21,6 +24,7 @@ import com.github.jungmin_moon.yugioh_collection_backend.restcontroller.CardCont
 import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
 
 @WebMvcTest(CardController.class)
+@AutoConfigureRestTestClient
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class CardRestControllerUpdateCardNameTests {
 	
@@ -29,30 +33,14 @@ public class CardRestControllerUpdateCardNameTests {
 	
 	@Autowired
 	MockMvcTester mockMvcTester;
-	
-	
-	@BeforeEach
-	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void setup() {
-		Card card = new Card();
-		card.setCardName("Dark Magician");
-		card.setCardType("Normal Monster");
-		card.setQuantity(4);
-		card.setUsername("testUser3");
 		
-		NewCardRequest newCardRequest = new NewCardRequest(card.getCardName(), card.getCardType(), card.getQuantity());
-		
-		cardService.addCard("testUser3", newCardRequest);
-	}
-	
 	
 	@Test
 	@DisplayName("")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void shouldSucceedWhenTryingToUpdateName() {
-						
+	void shouldSucceedWhenTryingToUpdateName() throws UnsupportedEncodingException {
 		
-	} 
+			} 
 	
 	@Test
 	@DisplayName("Should print an error message that oldCardName can't be empty or null.")
