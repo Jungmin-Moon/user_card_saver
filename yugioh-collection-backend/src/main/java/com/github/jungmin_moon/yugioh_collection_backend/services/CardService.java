@@ -75,21 +75,36 @@ public class CardService {
 	@Transactional
 	public void updateCardCount(String username, UpdateCardQuantityRequest updateCardQuantityRequest) {
 		
-		cardRepository.updateCardQuantity(username, updateCardQuantityRequest.updatedQuantity(), updateCardQuantityRequest.cardName());
+		var card = cardRepository.getCardInfo(username, updateCardQuantityRequest.cardName());
+		
+		card.setQuantity(updateCardQuantityRequest.updatedQuantity());
+		
+		cardRepository.save(card);
+		//cardRepository.updateCardQuantity(username, updateCardQuantityRequest.updatedQuantity(), updateCardQuantityRequest.cardName());
 		
 	}
 	
 	@Transactional
 	public void updateCardName(String username, UpdateCardNameRequest updateCardNameRequest) {
 		
-		cardRepository.updateCardName(username, updateCardNameRequest.oldCardName(), updateCardNameRequest.newCardName());
+		var card = cardRepository.getCardInfo(username, updateCardNameRequest.oldCardName());
+		
+		card.setCardName(updateCardNameRequest.newCardName());
+		
+		cardRepository.save(card);
+		//cardRepository.updateCardName(username, updateCardNameRequest.oldCardName(), updateCardNameRequest.newCardName());
 		
 	}
 	
 	@Transactional
 	public void updateCardType(String username, UpdateCardTypeRequest updateCardTypeRequest) {
 		
-		cardRepository.updateCardType(username, updateCardTypeRequest.cardName(), updateCardTypeRequest.newCardType());
+		var card = cardRepository.getCardInfo(username, updateCardTypeRequest.cardName());
+		
+		card.setCardType(updateCardTypeRequest.newCardType());
+		
+		cardRepository.save(card);
+		//cardRepository.updateCardType(username, updateCardTypeRequest.cardName(), updateCardTypeRequest.newCardType());
 		
 	}
 	

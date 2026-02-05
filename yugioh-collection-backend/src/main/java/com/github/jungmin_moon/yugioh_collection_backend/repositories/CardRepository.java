@@ -22,6 +22,7 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	@Query("SELECT c FROM Card c WHERE c.username = :username AND c.quantity = :quantity")
 	List<Card> getCardsByQuantity(@Param("username") String username, @Param("quantity")int quantity);
 	
+	/*
 	@Modifying
 	@Query("UPDATE Card c SET c.quantity = :quantity WHERE c.username = :username AND c.cardName = :cardName")
 	void updateCardQuantity(@Param("username") String username, @Param("quantity") int quantity, @Param("cardName") String cardName);
@@ -32,7 +33,9 @@ public interface CardRepository extends JpaRepository<Card, Long> {
 	
 	@Modifying
 	@Query("UPDATE Card c SET c.cardType = :newCardType WHERE c.username = :username AND c.cardName = :cardName")
-	void updateCardType(@Param("username") String username, @Param("cardName") String cardName, @Param("newCardType") String newCardType);
+	void updateCardType(@Param("username") String username, @Param("cardName") String cardName, @Param("newCardType") String newCardType); 
+	
+	*/
 	
 	@Query("SELECT c FROM Card c WHERE c.username = :username AND c.cardName LIKE %:wordToFind%")
 	List<Card> getCardsWithWordInName(@Param("username") String username, @Param("wordToFind") String wordToFind);
