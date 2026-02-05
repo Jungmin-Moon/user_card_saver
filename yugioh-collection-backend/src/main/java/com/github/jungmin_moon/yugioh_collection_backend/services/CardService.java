@@ -97,13 +97,13 @@ public class CardService {
 	}
 	
 	@Transactional
-	public void updateCardType(String username, UpdateCardTypeRequest updateCardTypeRequest) {
+	public Card updateCardType(String username, UpdateCardTypeRequest updateCardTypeRequest) {
 		
 		var card = cardRepository.getCardInfo(username, updateCardTypeRequest.cardName());
 		
 		card.setCardType(updateCardTypeRequest.newCardType());
 		
-		cardRepository.save(card);
+		return cardRepository.save(card);
 		//cardRepository.updateCardType(username, updateCardTypeRequest.cardName(), updateCardTypeRequest.newCardType());
 		
 	}
