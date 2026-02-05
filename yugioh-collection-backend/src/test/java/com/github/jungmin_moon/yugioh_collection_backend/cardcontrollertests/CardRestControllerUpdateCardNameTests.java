@@ -44,7 +44,7 @@ public class CardRestControllerUpdateCardNameTests {
 	} 
 
 	@Test
-	@DisplayName("")
+	@DisplayName("Should return a 2xx result since RequestBody is valid and card exists.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
 	void shouldSucceedWhenTryingToUpdateName() throws Exception {
 		

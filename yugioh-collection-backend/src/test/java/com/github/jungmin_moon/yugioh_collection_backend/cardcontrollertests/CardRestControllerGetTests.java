@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,53 @@ public class CardRestControllerGetTests {
 	
 	@MockitoBean
 	CardService cardService;
+	
+	List<Card> cardList = new ArrayList<>();
+	
+	@BeforeEach
+	void setup() {
+		Card card1 = new Card();
+		card1.setCardName("Dark Magician");
+		card1.setCardType("Normal Monster");
+		card1.setQuantity(2);
+		card1.setUsername("testUser1");
+		card1.setId(0);
+		
+		
+		Card card2 = new Card();
+		card2.setCardName("Blue-Eyes White Dragon");
+		card2.setCardType("Normal Monster");
+		card2.setQuantity(2);
+		card2.setUsername("testUser1");
+		card2.setId(1);
+		
+		Card card3 = new Card();
+		card3.setCardName("Red-Eyes Black Dragon");
+		card3.setCardType("Normal Monster");
+		card3.setQuantity(5);
+		card3.setUsername("testUser1");
+		card3.setId(2);
+		
+		Card card4 = new Card();
+		card4.setCardName("Stardust Dragon");
+		card4.setCardType("Synchro Monster");
+		card4.setQuantity(3);
+		card4.setUsername("testUser1");
+		card4.setId(3);
+		
+		Card card5 = new Card();
+		card5.setCardName("Number 39: Utopia");
+		card5.setCardType("XYZ Monster");
+		card5.setQuantity(1);
+		card5.setUsername("testUser1");
+		card5.setId(4);
+		
+		cardList.add(card1);
+		cardList.add(card2);
+		cardList.add(card3);
+		cardList.add(card4);
+		cardList.add(card5);
+	}
 	
 	@Test
 	@DisplayName("Should return a 401 status because they are unauthorized")
@@ -57,23 +105,13 @@ public class CardRestControllerGetTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
 	void shouldReturnCorrectCardCountString() {
 		
-		Card card1 = new Card();
-		card1.setCardName("Dark Magician");
-		card1.setCardType("Normal Monster");
-		card1.setQuantity(2);
-		card1.setUsername("testUser1");
-		card1.setId(0);
-		
-		List<Card> cardList = new ArrayList<>();
-		cardList.add(card1);
-		
 		when(cardService.returnCollectionCount("testUser1")).thenReturn(cardList.size());
 		
 		
 		restTestClient.get().uri("/card/countAll")
 							.exchange()
 							.expectBody(String.class)
-							.isEqualTo("testUser1 you currently own 1 cards.");
+							.isEqualTo("testUser1 you currently own 5 cards.");
 		
 	}
 }
