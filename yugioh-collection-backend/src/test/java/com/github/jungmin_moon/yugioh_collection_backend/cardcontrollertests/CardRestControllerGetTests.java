@@ -1,5 +1,6 @@
 package com.github.jungmin_moon.yugioh_collection_backend.cardcontrollertests;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
@@ -112,6 +113,37 @@ public class CardRestControllerGetTests {
 							.exchange()
 							.expectBody(String.class)
 							.isEqualTo("testUser1 you currently own 5 cards.");
+		
+	}
+	
+	@Test
+	@DisplayName("Should contain a string listing all cards in collection.")
+	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
+	void shouldReturnAllInCollection() {
+		
+		when(cardService.getAll("testUser1")).thenReturn(cardList);
+		
+		String result = restTestClient.get().uri("/card")
+							.exchange()
+							.expectBody(String.class)
+							.toString();
+		
+		assertThat(result.contains("Card Name: Dark Magician"));
+		
+	}
+	
+	@Test
+	@DisplayName("Should return a string that states the user has no cards owned in the event of a new user or a user who never added")
+	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
+	void shouldReturnStringSayingNoCardsOwned() {
+		
+		String result = restTestClient.get()
+							.uri("/card")
+							.exchange()
+							.expectBody(String.class)
+							.toString();
+		
+		assertThat(result.contains("You own no cards in your collection."));
 		
 	}
 }
