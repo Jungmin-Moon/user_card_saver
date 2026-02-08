@@ -28,8 +28,8 @@ public class CardServicePostPutImplTests {
 	
 	@Test
 	@Transactional
-	@DisplayName("Test card was added.")
-	public void testCardAddedHappyFlow() {
+	@DisplayName("Test method for when a card was added ending in success")
+	public void whenCardAdded_WhenGetAddedCard_ThenIdEqualToOne() {
 		
 		Card card = new Card();
 		card.setCardName("Dark Magician");
@@ -47,8 +47,8 @@ public class CardServicePostPutImplTests {
 	
 	@Test
 	@Transactional
-	@DisplayName("Test card quantity was changed.")
-	public void testCardQuantityChangedHappyFlow() {
+	@DisplayName("Test method to check card quantity was updated.")
+	public void givenCardAdded_WhenSendNewQuantity_ThenCardQuantityChanged() {
 		
 		Card card = new Card();
 		card.setCardName("Dark Magician");
@@ -69,8 +69,8 @@ public class CardServicePostPutImplTests {
 	
 	@Test
 	@Transactional
-	@DisplayName("Test card name was changed.")
-	public void testCardNameChangeHappyFlow() {
+	@DisplayName("Test method to check card name was updated.")
+	public void givenCardAdded_WhenSendNewCardName_ThenCardNameChanged() {
 		
 	}
 }

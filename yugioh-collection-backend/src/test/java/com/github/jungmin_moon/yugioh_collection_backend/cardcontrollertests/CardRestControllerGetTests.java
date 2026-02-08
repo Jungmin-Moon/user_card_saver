@@ -79,8 +79,8 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Should return a 401 status because they are unauthorized")
-	void getAllShouldReturn401() {
+	@DisplayName("Endpoint unauthorized test")
+	void ifAccessEndpoint_WhenNoAuthorization_ThenReturn4xx() {
 		
 		restTestClient.get().uri("/card")
 							.exchange()
@@ -90,9 +90,9 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Should return a 200 status because user is authorized")
+	@DisplayName("Endpoint authorized test")
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
-	void getAllWhenUserAuthorized() {
+	void ifAccessEndpoint_WhenAuthorized_ThenReturn2xx() {
 		
 		restTestClient.get().uri("/card")
 							.exchange()
@@ -102,9 +102,9 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Should return a String with the correct number of cards for user")
+	@DisplayName("countAll endpoint test")
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
-	void shouldReturnCorrectCardCountString() {
+	void whenAccessEndpoint_WhenAuthorized_ThenReturnHowManyCardsOwned() {
 		
 		when(cardService.returnCollectionCount("testUser1")).thenReturn(cardList.size());
 		
@@ -117,9 +117,9 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Should contain a string listing all cards in collection.")
+	@DisplayName("Endpoint test that returns all cards user has.")
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
-	void shouldReturnAllInCollection() {
+	void whenAccessEndpoint_WhenAuthorized_ThenReturnCardsOwned() {
 		
 		when(cardService.getAll("testUser1")).thenReturn(cardList);
 		
@@ -133,9 +133,9 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Should return a string that states the user has no cards owned in the event of a new user or a user who never added")
+	@DisplayName("Endpoint test that returns string stating user owns no cards.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void shouldReturnStringSayingNoCardsOwned() {
+	void whenAccessEndpoint_WhenAuthorizedWithNoCards_ThenReturnNoCardsOwned() {
 		
 		String result = restTestClient.get()
 							.uri("/card")

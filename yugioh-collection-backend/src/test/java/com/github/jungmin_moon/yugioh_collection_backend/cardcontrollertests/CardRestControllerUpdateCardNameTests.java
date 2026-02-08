@@ -44,9 +44,9 @@ public class CardRestControllerUpdateCardNameTests {
 	} 
 
 	@Test
-	@DisplayName("Should return a 2xx result since RequestBody is valid and card exists.")
+	@DisplayName("Test for updating card name that returns 2xx")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void shouldSucceedWhenTryingToUpdateName() throws Exception {
+	void givenUpdateNameRequest_WhenNoBadValues_ThenReturn2xx() throws Exception {
 		
 		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(true);
 		
@@ -71,9 +71,9 @@ public class CardRestControllerUpdateCardNameTests {
 	} 
 	
 	@Test
-	@DisplayName("Should print an error message that oldCardName can't be empty or null.")
+	@DisplayName("Test for updating card name that returns 4xx and appropriate message")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void shouldPrintErrorMessageBecauseOldCardNameEmptyOrNull() throws Exception {
+	void givenUpdateNameRequest_WithBadOldCardNameValue_ThenReturn4xxAndErrorMessage() throws Exception {
 		
 		String updateNameRequest = """
 				{
@@ -97,9 +97,9 @@ public class CardRestControllerUpdateCardNameTests {
 	}
 	
 	@Test
-	@DisplayName("Should print an error message that newCardName can't be empty or null.")
+	@DisplayName("Test for updating card name that returns 4xx due to newCardName being null or empty")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void shouldPrintErrorMessageBecauseNewCardNameEmptyOrNull() throws Exception {
+	void givenUpdateNameRequest_WithBadNewCardNameValue_ThenReturn4xxAndErrorMessage() throws Exception {
 		
 		String updateNameRequest = """
 				{
@@ -123,9 +123,9 @@ public class CardRestControllerUpdateCardNameTests {
 	}
 	
 	@Test
-	@DisplayName("Should print an error message because both newCardName and oldCardName were empty or null.")
+	@DisplayName("Test for updating card name that reutnrs 4xx and two messages")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void shouldPrintErrorMessageBecauseAllInputEmptyOrNull() throws Exception{
+	void givenUpdatenameRequest_WithBadOldCardNameAndNewCardNameValue_ThenReturn4xxAndErrorMessage() throws Exception{
 		
 		String updateNameRequest = """
 				{

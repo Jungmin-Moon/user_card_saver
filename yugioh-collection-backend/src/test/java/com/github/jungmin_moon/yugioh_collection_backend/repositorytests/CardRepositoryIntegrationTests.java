@@ -3,15 +3,13 @@ package com.github.jungmin_moon.yugioh_collection_backend.repositorytests;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
 import org.springframework.boot.jdbc.test.autoconfigure.AutoConfigureTestDatabase;
 import org.springframework.boot.jpa.test.autoconfigure.TestEntityManager;
 
-import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardNameRequest;
-import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardQuantityRequest;
-import com.github.jungmin_moon.yugioh_collection_backend.dto.UpdateCardTypeRequest;
 import com.github.jungmin_moon.yugioh_collection_backend.entities.Card;
 import com.github.jungmin_moon.yugioh_collection_backend.repositories.CardRepository;
 
@@ -54,7 +52,8 @@ public class CardRepositoryIntegrationTests {
 	//Success tests
 	
 	@Test
-	void givenNewCard_whenSave_thenSuccess() {
+	@DisplayName("Test method to make sure inserted card is the same as card1")
+	void givenNewCard_WhenSave_ThenSuccess() {
 		
 		Card insertedCard = cardRepository.save(card1);
 		
@@ -62,7 +61,8 @@ public class CardRepositoryIntegrationTests {
 	} 
 	
 	@Test
-	void givenCardCreated_whenFindByName_thenSuccess() {
+	@DisplayName("Test method to check that card found by name is equal to given card.")
+	void givenCardCreated_WhenFindByName_ThenSuccess() {
 		
 		cardRepository.save(card1);
 		
@@ -73,7 +73,8 @@ public class CardRepositoryIntegrationTests {
 	}
 	
 	@Test
-	void givenCardsCreated_whenCardsCountSame_thenSuccess() {
+	@DisplayName("Test method to check that number of cards owned by user is 2")
+	void givenCardsCreated_WhenCardsCountSame_ThenSuccess() {
 		
 		cardRepository.save(card1);
 		cardRepository.save(card2);
@@ -85,7 +86,8 @@ public class CardRepositoryIntegrationTests {
 	}
 	
 	@Test
-	void givenCardsCreated_findWithSubString_thenSuccess() {
+	@DisplayName("Test method that checks size of list when searching with a substring is equal to 1")
+	void givenCardsCreated_WhenGivenSubStringFound_ThenListIsSizeOne() {
 		
 		cardRepository.save(card1);
 		cardRepository.save(card2);
@@ -96,7 +98,8 @@ public class CardRepositoryIntegrationTests {
 	}
 	
 	@Test
-	void givenCardsCreated_findWithGivenQuantity_thenSuccess() {
+	@DisplayName("Test method to check when searching for cards with specific quantities.")
+	void givenCardsCreated_WhenGivenQuantity_ThenListIsSizeTwo() {
 		
 		cardRepository.save(card1);
 		cardRepository.save(card2);
