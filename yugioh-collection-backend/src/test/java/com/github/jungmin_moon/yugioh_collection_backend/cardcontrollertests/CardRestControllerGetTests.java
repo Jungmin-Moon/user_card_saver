@@ -136,7 +136,7 @@ public class CardRestControllerGetTests {
 	@Test
 	@DisplayName("Endpoint, /card, test that returns string stating user owns no cards.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void whenAccessEndpoint_WhenAuthorizedWithNoCards_ThenReturnNoCardsOwned() {
+	void whenAccessEndpoint_WhenWithNoCards_ThenReturnNoCardsOwned() {
 		
 		String result = restTestClient.get()
 							.uri("/card")
@@ -151,7 +151,7 @@ public class CardRestControllerGetTests {
 	@Test
 	@DisplayName("Endpoint, /card/{cardName}, test that returns a card with the exact word in their name.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnCardsWithExactlyGivenString() {
+	void whenAccessEndPoint_WhenWithCards_ThenReturnCardsWithExactlyGivenString() {
 		
 		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(true);
 		when(cardService.getCardInfo("testUser3", "Dark Magician")).thenReturn(card1);
@@ -169,7 +169,7 @@ public class CardRestControllerGetTests {
 	@Test
 	@DisplayName("Endpoint, /card/{cardName}, test that returns a string stating user owns no cards with that word in their name.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnNoCardInCollectionStringMessage() {
+	void whenAccessEndPoint_WhenWithCards_ThenReturnNoCardInCollectionStringMessage() {
 		
 		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(false);
 		
@@ -186,7 +186,7 @@ public class CardRestControllerGetTests {
 	@Test
 	@DisplayName("Endpoint, /card/quantity/{quantity}, test that returns a string with the cards in user collection with that quantity.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnCardsInfoWithGivenQuantityStringMessage() {
+	void whenAccessEndPoint_WhendWithCards_ThenReturnCardsWithGivenQuantityStringMessage() {
 		
 		when(cardService.getCardsByQuantity("testUser3", 2)).thenReturn(cardList.stream().filter(c -> c.getQuantity() == 2).collect(Collectors.toList()));
 		
@@ -203,9 +203,9 @@ public class CardRestControllerGetTests {
 	@Test
 	@DisplayName("Endpoint, /card/quantity/{quantity}, test that returns a string stating the user has no cards in their collection with that quantity.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnNoCardsWithGivenQuantityStringMessage() {
+	void whenAccessEndPoint_WhenWithCards_ThenReturnNoCardsWithGivenQuantityStringMessage() {
 		
-		when(cardService.getCardsByQuantity("testUser3", 4)).thenReturn(new ArrayList<Card>());
+		when(cardService.getCardsByQuantity("testUser3", 4)).thenReturn(cardList.stream().filter(c -> c.getQuantity() == 4).collect(Collectors.toList()));
 		
 		String result = restTestClient.get()
 							.uri("/card/quantity/{quantity}", 4)
@@ -216,5 +216,36 @@ public class CardRestControllerGetTests {
 		assertThat(result.contains("You have no cards in your collection that are exactly"));
 	}
 	
-	//wordToSearch
+	@Test
+	@DisplayName("Endpoint, /card/word/{wordToSearch}, test that returns a string with the cards that contain the given substring in their name.")
+	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
+	void whenAccessEndPoint_WhenWithCards_ThenReturnCardInfoWithGivenSubtringMessage() {
+		
+		when(cardService.getCardsWithWordInName("testUser3", "dragon")).thenReturn(cardList.stream().filter(c -> c.getCardName().matches("^[dD]ragon")).collect(Collectors.toList()));
+		
+		String result = restTestClient.get()
+							.uri("/card/word/{wordToSearch}", "dragon")
+							.exchange()
+							.expectBody(String.class)
+							.toString();
+		
+		assertThat(result.contains("Card Name: Blue-Eyes White Dragon"));
+	}
+	
+	@Test
+	@DisplayName("Endpoint, /card/word/{wordToSearch}, test that returns a string stating user has no cards with substring in their name.")
+	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
+	void whenAccessEndPoint_WithCards_ThenReturnNoCardWithSubStringInfoStringMessage() {
+		
+		when(cardService.getCardsWithWordInName("testUser3", "Guardian")).thenReturn(cardList.stream().filter(c -> c.getCardName().matches("^[gG]uardian")).collect(Collectors.toList()));
+		
+		String result = restTestClient.get()
+							.uri("/card/word/{wordToSearch}", "Guardian")
+							.exchange()
+							.expectBody(String.class)
+							.toString();
+		
+		assertThat(result.contains("No cards in your collection have the word:"));
+		
+	}
 }
