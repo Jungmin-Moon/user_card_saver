@@ -5,6 +5,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,38 +34,38 @@ public class CardRestControllerGetTests {
 	
 	List<Card> cardList = new ArrayList<>();
 	
+	Card card1 = new Card();
+	Card card2 = new Card();
+	Card card3 = new Card();
+	Card card4 = new Card();
+	Card card5 = new Card();
+	
 	@BeforeEach
 	void setup() {
-		Card card1 = new Card();
 		card1.setCardName("Dark Magician");
 		card1.setCardType("Normal Monster");
 		card1.setQuantity(2);
 		card1.setUsername("testUser1");
 		card1.setId(0);
 		
-		
-		Card card2 = new Card();
 		card2.setCardName("Blue-Eyes White Dragon");
 		card2.setCardType("Normal Monster");
 		card2.setQuantity(2);
 		card2.setUsername("testUser1");
 		card2.setId(1);
 		
-		Card card3 = new Card();
 		card3.setCardName("Red-Eyes Black Dragon");
 		card3.setCardType("Normal Monster");
 		card3.setQuantity(5);
 		card3.setUsername("testUser1");
 		card3.setId(2);
 		
-		Card card4 = new Card();
 		card4.setCardName("Stardust Dragon");
 		card4.setCardType("Synchro Monster");
 		card4.setQuantity(3);
 		card4.setUsername("testUser1");
 		card4.setId(3);
 		
-		Card card5 = new Card();
 		card5.setCardName("Number 39: Utopia");
 		card5.setCardType("XYZ Monster");
 		card5.setQuantity(1);
@@ -79,7 +80,7 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Endpoint unauthorized test")
+	@DisplayName("Endpoint, /card, unauthorized test")
 	void ifAccessEndpoint_WhenNoAuthorization_ThenReturn4xx() {
 		
 		restTestClient.get().uri("/card")
@@ -90,7 +91,7 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Endpoint authorized test")
+	@DisplayName("Endpoint, /card, authorized test")
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
 	void ifAccessEndpoint_WhenAuthorized_ThenReturn2xx() {
 		
@@ -117,7 +118,7 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Endpoint test that returns all cards user has.")
+	@DisplayName("Endpoint, /card, test that returns all cards user has.")
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
 	void whenAccessEndpoint_WhenAuthorized_ThenReturnCardsOwned() {
 		
@@ -133,7 +134,7 @@ public class CardRestControllerGetTests {
 	}
 	
 	@Test
-	@DisplayName("Endpoint test that returns string stating user owns no cards.")
+	@DisplayName("Endpoint, /card, test that returns string stating user owns no cards.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
 	void whenAccessEndpoint_WhenAuthorizedWithNoCards_ThenReturnNoCardsOwned() {
 		
@@ -146,4 +147,74 @@ public class CardRestControllerGetTests {
 		assertThat(result.contains("You own no cards in your collection."));
 		
 	}
+	
+	@Test
+	@DisplayName("Endpoint, /card/{cardName}, test that returns a card with the exact word in their name.")
+	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
+	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnCardsWithExactlyGivenString() {
+		
+		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(true);
+		when(cardService.getCardInfo("testUser3", "Dark Magician")).thenReturn(card1);
+		
+		String result = restTestClient.get()
+							.uri("/card/{cardName}", "Dark Magician")
+							.exchange()
+							.expectBody(String.class)
+							.toString();
+		
+		assertThat(result.contains("Card Name: Dark Magician"));
+	
+	}
+	
+	@Test
+	@DisplayName("Endpoint, /card/{cardName}, test that returns a string stating user owns no cards with that word in their name.")
+	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
+	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnNoCardInCollectionStringMessage() {
+		
+		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(false);
+		
+		String result = restTestClient.get()
+						.uri("/card/{cardName}", "Dark Magician")
+						.exchange()
+						.expectBody(String.class)
+						.toString();
+		
+		assertThat(result.contains("That card does not exist in your collection,"));
+	}
+	
+	//quantity
+	@Test
+	@DisplayName("Endpoint, /card/quantity/{quantity}, test that returns a string with the cards in user collection with that quantity.")
+	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
+	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnCardsInfoWithGivenQuantityStringMessage() {
+		
+		when(cardService.getCardsByQuantity("testUser3", 2)).thenReturn(cardList.stream().filter(c -> c.getQuantity() == 2).collect(Collectors.toList()));
+		
+		String result = restTestClient.get()
+								.uri("/card/quantity/{quantity}", 2)
+								.exchange()
+								.expectBody(String.class)
+								.toString();
+		
+		assertThat(result.contains("Card Name: Blue-Eyes"));
+	}
+	
+	
+	@Test
+	@DisplayName("Endpoint, /card/quantity/{quantity}, test that returns a string stating the user has no cards in their collection with that quantity.")
+	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
+	void whenAccessEndPoint_WhenAuthorizedWithCards_ThenReturnNoCardsWithGivenQuantityStringMessage() {
+		
+		when(cardService.getCardsByQuantity("testUser3", 4)).thenReturn(new ArrayList<Card>());
+		
+		String result = restTestClient.get()
+							.uri("/card/quantity/{quantity}", 4)
+							.exchange()
+							.expectBody(String.class)
+							.toString();
+		
+		assertThat(result.contains("You have no cards in your collection that are exactly"));
+	}
+	
+	//wordToSearch
 }
