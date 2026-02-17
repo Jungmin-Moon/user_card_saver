@@ -186,7 +186,7 @@ public class CardRestControllerGetTests {
 	@Test
 	@DisplayName("Endpoint, /card/quantity/{quantity}, test that returns a string with the cards in user collection with that quantity.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void whenAccessEndPoint_WhendWithCards_ThenReturnCardsWithGivenQuantityStringMessage() {
+	void whenAccessEndPoint_WhenWithCards_ThenReturnCardsWithGivenQuantityStringMessage() {
 		
 		when(cardService.getCardsByQuantity("testUser3", 2)).thenReturn(cardList.stream().filter(c -> c.getQuantity() == 2).collect(Collectors.toList()));
 		
@@ -235,7 +235,7 @@ public class CardRestControllerGetTests {
 	@Test
 	@DisplayName("Endpoint, /card/word/{wordToSearch}, test that returns a string stating user has no cards with substring in their name.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void whenAccessEndPoint_WithCards_ThenReturnNoCardWithSubStringInfoStringMessage() {
+	void whenAccessEndPoint_WhenWithCards_ThenReturnNoCardWithSubStringInfoStringMessage() {
 		
 		when(cardService.getCardsWithWordInName("testUser3", "Guardian")).thenReturn(cardList.stream().filter(c -> c.getCardName().matches("^[gG]uardian")).collect(Collectors.toList()));
 		

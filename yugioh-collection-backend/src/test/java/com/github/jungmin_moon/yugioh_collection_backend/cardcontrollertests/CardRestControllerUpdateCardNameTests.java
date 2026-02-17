@@ -42,6 +42,28 @@ public class CardRestControllerUpdateCardNameTests {
 		card.setUsername("testUser3");
 		card.setId(233);
 	} 
+	
+	@Test
+	@DisplayName("Endpoint test when user is not authorized that should return 4xx")
+	void givenNoAuthorization_WhenAccessingEndpoint_ThenReturn4XX() throws Exception {
+		
+		String updateNameRequest = """
+				{
+					"oldCardName": "Dark Magician",
+					"newCardName": "Red-Eyes Black Dragon"
+				} 
+				""";
+		
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+											.put("/card/update/card_name")
+											.with(csrf())
+											.contentType(MediaType.APPLICATION_JSON)
+											.content(updateNameRequest)
+											.accept(MediaType.APPLICATION_JSON));
+		
+		result.andDo(MockMvcResultHandlers.print())
+				.andExpect(status().is4xxClientError());
+	}
 
 	@Test
 	@DisplayName("Test for updating card name that returns 2xx")
@@ -123,7 +145,7 @@ public class CardRestControllerUpdateCardNameTests {
 	}
 	
 	@Test
-	@DisplayName("Test for updating card name that reutnrs 4xx and two messages")
+	@DisplayName("Test for updating card name that returns 4xx and two messages")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
 	void givenUpdatenameRequest_WithBadOldCardNameAndNewCardNameValue_ThenReturn4xxAndErrorMessage() throws Exception{
 		
