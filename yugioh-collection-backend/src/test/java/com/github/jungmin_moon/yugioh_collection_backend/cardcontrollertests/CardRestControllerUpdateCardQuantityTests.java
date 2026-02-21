@@ -1,5 +1,6 @@
 package com.github.jungmin_moon.yugioh_collection_backend.cardcontrollertests;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -49,7 +50,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 		String requestBody = """
 				{
 					"cardName": "Dark Magician",
-					"quantity": 5
+					"updatedQuantity": 5
 				}
 				""";
 		
@@ -68,9 +69,26 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@Test
 	@DisplayName("Test to make sure does not exist message appears when user is authorized and they don't own the card.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenCardNotExist_ThenReturnNotInCollectionMessage() {
+	void givenUpdateCardQuantityRequest_WhenCardNotExist_ThenReturnNotInCollectionMessage() throws Exception {
 		
-		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(true);
+		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(false);
+		
+		String requestBody = """
+				{
+					"cardName": "Dark Magician",
+					"updatedQuantity": 5
+				}
+				""";
+		
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+											.put("/card/update/quantity")
+											.with(csrf())
+											.contentType(MediaType.APPLICATION_JSON)
+											.content(requestBody)
+											.accept(MediaType.APPLICATION_JSON));
+		
+		result.andDo(MockMvcResultHandlers.print())
+				.andExpect(status().is4xxClientError());
 		
 		
 	}
@@ -78,28 +96,95 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@Test
 	@DisplayName("Test to make sure a successful message appears when user is authorized and they do own the card.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenCardExists_ThenReturn2XXSuccessAndStringMessage() {
+	void givenUpdateCardQuantityRequest_WhenCardExists_ThenReturn2XXSuccessAndStringMessage() throws Exception{
+		
+		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(true);
+		
+		String requestBody = """
+				{
+					"cardName": "Dark Magician",
+					"updatedQuantity": 5
+				}
+				""";
+		
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+											.put("/card/update/quantity")
+											.with(csrf())
+											.contentType(MediaType.APPLICATION_JSON)
+											.content(requestBody)
+											.accept(MediaType.APPLICATION_JSON));
+		
+		result.andDo(MockMvcResultHandlers.print())
+				.andExpect(status().isOk());
 		
 	}
 	
 	@Test
 	@DisplayName("Test to make sure a message that states the card name value was bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadCardName_ThenReturn4XXAndStringMessage() {
+	void givenUpdateCardQuantityRequest_WhenBadCardName_ThenReturn4XXAndStringMessage() throws Exception{
 		
+		String requestBody = """
+				{
+					"cardName": "",
+					"updatedQuantity": 5
+				}
+				""";
+		
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+											.put("/card/update/quantity")
+											.with(csrf())
+											.contentType(MediaType.APPLICATION_JSON)
+											.content(requestBody)
+											.accept(MediaType.APPLICATION_JSON));
+		
+		result.andDo(MockMvcResultHandlers.print())
+				.andExpect(status().is4xxClientError());
 	}
 	
 	@Test
 	@DisplayName("Test to make sure a message that states the quantity value was bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadQuantity_ThenReturn4XXAndStringMessage() {
+	void givenUpdateCardQuantityRequest_WhenBadQuantity_ThenReturn4XXAndStringMessage() throws Exception{
 		
+		String requestBody = """
+				{
+					"cardName": "Dark Magician",
+					"updatedQuantity": 0
+				}
+				""";
+		
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+				.put("/card/update/quantity")
+				.with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody)
+				.accept(MediaType.APPLICATION_JSON));
+
+		result.andDo(MockMvcResultHandlers.print())
+				.andExpect(status().is4xxClientError());
 	}
 	
 	@Test
 	@DisplayName("Test to make sure a message that states that both values were bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadCardNameAndQuantity_ThenReturn4XXAndStringMessage() {
+	void givenUpdateCardQuantityRequest_WhenBadCardNameAndQuantity_ThenReturn4XXAndStringMessage() throws Exception{
 		
+		String requestBody = """
+				{
+					"cardName": null,
+					"updatedQuantity": 0
+				}
+				""";
+		
+		ResultActions result = mvc.perform(MockMvcRequestBuilders
+				.put("/card/update/quantity")
+				.with(csrf())
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(requestBody)
+				.accept(MediaType.APPLICATION_JSON));
+
+		result.andDo(MockMvcResultHandlers.print())
+				.andExpect(status().is4xxClientError());
 	}
 }
