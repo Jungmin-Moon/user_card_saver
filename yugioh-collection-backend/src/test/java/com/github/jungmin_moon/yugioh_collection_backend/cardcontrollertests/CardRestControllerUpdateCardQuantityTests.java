@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
@@ -80,15 +81,15 @@ public class CardRestControllerUpdateCardQuantityTests {
 				}
 				""";
 		
-		ResultActions result = mvc.perform(MockMvcRequestBuilders
+		MvcResult result = mvc.perform(MockMvcRequestBuilders
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
 											.content(requestBody)
-											.accept(MediaType.APPLICATION_JSON));
+											.accept(MediaType.APPLICATION_JSON))
+											.andReturn();
 		
-		result.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().is4xxClientError());
+		assertThat(result.getResponse().getContentAsString()).contains("could not be found");
 		
 		
 	}
@@ -96,7 +97,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@Test
 	@DisplayName("Test to make sure a successful message appears when user is authorized and they do own the card.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenCardExists_ThenReturn2XXSuccessAndStringMessage() throws Exception{
+	void givenUpdateCardQuantityRequest_WhenCardExists_ThenReturnQuantityChangedStringMessage() throws Exception{
 		
 		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(true);
 		
@@ -107,15 +108,15 @@ public class CardRestControllerUpdateCardQuantityTests {
 				}
 				""";
 		
-		ResultActions result = mvc.perform(MockMvcRequestBuilders
+		MvcResult result = mvc.perform(MockMvcRequestBuilders
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
 											.content(requestBody)
-											.accept(MediaType.APPLICATION_JSON));
+											.accept(MediaType.APPLICATION_JSON))
+											.andReturn();
 		
-		result.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().isOk());
+		assertThat(result.getResponse().getContentAsString()).contains("count has been updated");
 		
 	}
 	
