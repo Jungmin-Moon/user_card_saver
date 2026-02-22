@@ -123,7 +123,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@Test
 	@DisplayName("Test to make sure a message that states the card name value was bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadCardName_ThenReturnStringMessage() throws Exception{
+	void givenUpdateCardQuantityRequest_WhenBadCardName_ThenReturnFailureStringMessage() throws Exception{
 		
 		String updateCardQuantityRequest = """
 				{
@@ -147,7 +147,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@Test
 	@DisplayName("Test to make sure a message that states the quantity value was bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadQuantity_ThenReturnStringMessage() throws Exception{
+	void givenUpdateCardQuantityRequest_WhenBadQuantity_ThenReturnFailureStringMessage() throws Exception{
 		
 		String updateCardQuantityRequest = """
 				{
@@ -171,7 +171,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@Test
 	@DisplayName("Test to make sure a message that states that both values were bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadCardNameAndQuantity_ThenReturnStringMessage() throws Exception{
+	void givenUpdateCardQuantityRequest_WhenBadCardNameAndQuantity_ThenReturnMultipleFailureStringMessage() throws Exception{
 		
 		String updateCardQuantityRequest = """
 				{
