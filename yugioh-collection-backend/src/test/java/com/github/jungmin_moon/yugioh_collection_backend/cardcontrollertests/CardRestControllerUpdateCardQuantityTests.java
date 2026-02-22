@@ -48,7 +48,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@DisplayName("Test to make sure that users without authorization can't access the endpoint.")
 	void givenNoAuthorization_WhenAccessingEndpoint_Return4XX() throws Exception {
 		
-		String requestBody = """
+		String updateCardQuantityRequest = """
 				{
 					"cardName": "Dark Magician",
 					"updatedQuantity": 5
@@ -59,7 +59,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
-											.content(requestBody)
+											.content(updateCardQuantityRequest)
 											.accept(MediaType.APPLICATION_JSON));
 		
 		result.andDo(MockMvcResultHandlers.print())
@@ -74,7 +74,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 		
 		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(false);
 		
-		String requestBody = """
+		String updateCardQuantityRequest = """
 				{
 					"cardName": "Dark Magician",
 					"updatedQuantity": 5
@@ -85,7 +85,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
-											.content(requestBody)
+											.content(updateCardQuantityRequest)
 											.accept(MediaType.APPLICATION_JSON))
 											.andReturn();
 		
@@ -101,7 +101,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 		
 		when(cardService.isCardInDatabase("testUser3", "Dark Magician")).thenReturn(true);
 		
-		String requestBody = """
+		String updateCardQuantityRequest = """
 				{
 					"cardName": "Dark Magician",
 					"updatedQuantity": 5
@@ -112,7 +112,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
-											.content(requestBody)
+											.content(updateCardQuantityRequest)
 											.accept(MediaType.APPLICATION_JSON))
 											.andReturn();
 		
@@ -125,7 +125,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
 	void givenUpdateCardQuantityRequest_WhenBadCardName_ThenReturnStringMessage() throws Exception{
 		
-		String requestBody = """
+		String updateCardQuantityRequest = """
 				{
 					"cardName": "",
 					"updatedQuantity": 5
@@ -136,7 +136,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
-											.content(requestBody)
+											.content(updateCardQuantityRequest)
 											.accept(MediaType.APPLICATION_JSON))
 											.andReturn();	
 		
@@ -149,7 +149,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
 	void givenUpdateCardQuantityRequest_WhenBadQuantity_ThenReturnStringMessage() throws Exception{
 		
-		String requestBody = """
+		String updateCardQuantityRequest = """
 				{
 					"cardName": "Dark Magician",
 					"updatedQuantity": 0
@@ -160,7 +160,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
-											.content(requestBody)
+											.content(updateCardQuantityRequest)
 											.accept(MediaType.APPLICATION_JSON))
 											.andReturn();
 		
@@ -173,7 +173,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
 	void givenUpdateCardQuantityRequest_WhenBadCardNameAndQuantity_ThenReturnStringMessage() throws Exception{
 		
-		String requestBody = """
+		String updateCardQuantityRequest = """
 				{
 					"cardName": null,
 					"updatedQuantity": 0
@@ -184,7 +184,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
-											.content(requestBody)
+											.content(updateCardQuantityRequest)
 											.accept(MediaType.APPLICATION_JSON))
 											.andReturn();
 		

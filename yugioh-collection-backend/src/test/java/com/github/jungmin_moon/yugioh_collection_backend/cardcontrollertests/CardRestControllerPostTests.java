@@ -30,7 +30,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
 	void givenNewCardRequest_WhenNoBadValues_ThenReturn2xx() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": "Dark Magician",
 					"cardType": "Normal Monster",
@@ -42,7 +42,7 @@ public class CardRestControllerPostTests {
 												.with(csrf())
 												.uri("/card/add")
 												.contentType(MediaType.APPLICATION_JSON)
-												.content(requestBody)
+												.content(newCardRequest)
 												.exchange();
 		
 		assertThat(testResult).hasStatus2xxSuccessful();
@@ -54,7 +54,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = {"USER"})
 	void givenNewCardRequest_WhenBadCardName_ThenReturnErrorMessage() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": null,
 					"cardType": "Normal Monster",
@@ -66,7 +66,7 @@ public class CardRestControllerPostTests {
 										.with(csrf())
 										.uri("/card/add")
 										.contentType(MediaType.APPLICATION_JSON)
-										.content(requestBody)
+										.content(newCardRequest)
 										.exchange();
 		
 		String expectedMessage = "{\"cardName\":\"Card name must not be null or empty.\"}";
@@ -80,7 +80,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void givenNewCardRequest_WhenBadCardType_ThenReturnErrorMessage() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": "Dark Magician",
 					"cardType": null,
@@ -92,7 +92,7 @@ public class CardRestControllerPostTests {
 												.with(csrf())
 												.uri("/card/add")
 												.contentType(MediaType.APPLICATION_JSON)
-												.content(requestBody)
+												.content(newCardRequest)
 												.exchange();
 		
 		String expectedMessage = "{\"cardType\":\"Card type must not be null or empty.\"}";
@@ -106,7 +106,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void givenNewCardRequest_WhenBadQuantity_ThenReturnErrorMessage() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": "Dark Magician",
 					"cardType": "Normal Monster",
@@ -115,11 +115,11 @@ public class CardRestControllerPostTests {
 				""";
 		
 		MvcTestResult testResult = mockMvcTester.post()
-				.with(csrf())
-				.uri("/card/add")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody)
-				.exchange();
+												.with(csrf())
+												.uri("/card/add")
+												.contentType(MediaType.APPLICATION_JSON)
+												.content(newCardRequest)
+												.exchange();
 		
 		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\"}";
 		
@@ -131,7 +131,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void givenNewCardRequest_WhenBadCardNameAndCardType_ThenReturnMultipleErrorMessages() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": "",
 					"cardType": null,
@@ -140,11 +140,11 @@ public class CardRestControllerPostTests {
 				""";
 		
 		MvcTestResult testResult = mockMvcTester.post()
-				.with(csrf())
-				.uri("/card/add")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody)
-				.exchange();
+												.with(csrf())
+												.uri("/card/add")
+												.contentType(MediaType.APPLICATION_JSON)
+												.content(newCardRequest)
+												.exchange();
 		
 		String expectedMessage = "{\"cardName\":\"Card name must not be null or empty.\""
 								+ ",\"cardType\":\"Card type must not be null or empty.\"}";
@@ -157,7 +157,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void givenNewCardRequest_WhenBadCardNameAndQuantity_ThenReturnMultipleErrorMessages() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": null,
 					"cardType": "Normal Monster",
@@ -165,11 +165,11 @@ public class CardRestControllerPostTests {
 				}
 				""";
 		MvcTestResult testResult = mockMvcTester.post()
-				.with(csrf())
-				.uri("/card/add")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody)
-				.exchange();
+												.with(csrf())
+												.uri("/card/add")
+												.contentType(MediaType.APPLICATION_JSON)
+												.content(newCardRequest)
+												.exchange();
 		
 		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\""
 								+ ",\"cardName\":\"Card name must not be null or empty.\"}";
@@ -183,7 +183,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void givenNewCardRequest_WhenBadCardTypeAndQuantity_ThenReturnMultipleErrorMessage() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": "Dark Magician",
 					"cardType": "",
@@ -195,7 +195,7 @@ public class CardRestControllerPostTests {
 												.with(csrf())
 												.uri("/card/add")
 												.contentType(MediaType.APPLICATION_JSON)
-												.content(requestBody)
+												.content(newCardRequest)
 												.exchange();
 		
 		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\""
@@ -210,7 +210,7 @@ public class CardRestControllerPostTests {
 	@WithMockUser(username = "testUser1", password = "password1", roles = "{USER}")
 	void givenNewCardRequest_WhenBadCardNameAndCardTypeAndQuantity_ThenReturnMultipleErrorMessages() {
 		
-		String requestBody = """
+		String newCardRequest = """
 				{
 					"cardName": null,
 					"cardType": "",
@@ -222,7 +222,7 @@ public class CardRestControllerPostTests {
 												.with(csrf())
 												.uri("/card/add")
 												.contentType(MediaType.APPLICATION_JSON)
-												.content(requestBody)
+												.content(newCardRequest)
 												.exchange();
 		
 		String expectedMessage = "{\"quantity\":\"Quantity must be 1 or greater.\""
