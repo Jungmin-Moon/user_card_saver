@@ -123,7 +123,7 @@ public class CardRestControllerUpdateCardQuantityTests {
 	@Test
 	@DisplayName("Test to make sure a message that states the card name value was bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadCardName_ThenReturn4XXAndStringMessage() throws Exception{
+	void givenUpdateCardQuantityRequest_WhenBadCardName_ThenReturnStringMessage() throws Exception{
 		
 		String requestBody = """
 				{
@@ -132,21 +132,22 @@ public class CardRestControllerUpdateCardQuantityTests {
 				}
 				""";
 		
-		ResultActions result = mvc.perform(MockMvcRequestBuilders
+		MvcResult result = mvc.perform(MockMvcRequestBuilders
 											.put("/card/update/quantity")
 											.with(csrf())
 											.contentType(MediaType.APPLICATION_JSON)
 											.content(requestBody)
-											.accept(MediaType.APPLICATION_JSON));
+											.accept(MediaType.APPLICATION_JSON))
+											.andReturn();	
 		
-		result.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().is4xxClientError());
+		assertThat(result.getResponse().getContentAsString()).contains("Card name must not be null or empty");
+		
 	}
 	
 	@Test
 	@DisplayName("Test to make sure a message that states the quantity value was bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadQuantity_ThenReturn4XXAndStringMessage() throws Exception{
+	void givenUpdateCardQuantityRequest_WhenBadQuantity_ThenReturnStringMessage() throws Exception{
 		
 		String requestBody = """
 				{
@@ -155,21 +156,22 @@ public class CardRestControllerUpdateCardQuantityTests {
 				}
 				""";
 		
-		ResultActions result = mvc.perform(MockMvcRequestBuilders
-				.put("/card/update/quantity")
-				.with(csrf())
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody)
-				.accept(MediaType.APPLICATION_JSON));
-
-		result.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().is4xxClientError());
+		MvcResult result = mvc.perform(MockMvcRequestBuilders
+											.put("/card/update/quantity")
+											.with(csrf())
+											.contentType(MediaType.APPLICATION_JSON)
+											.content(requestBody)
+											.accept(MediaType.APPLICATION_JSON))
+											.andReturn();
+		
+		assertThat(result.getResponse().getContentAsString()).contains("Updated quantity must be 1 or higher");
+		
 	}
 	
 	@Test
 	@DisplayName("Test to make sure a message that states that both values were bad is returned.")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateCardQuantityRequest_WhenBadCardNameAndQuantity_ThenReturn4XXAndStringMessage() throws Exception{
+	void givenUpdateCardQuantityRequest_WhenBadCardNameAndQuantity_ThenReturnStringMessage() throws Exception{
 		
 		String requestBody = """
 				{
@@ -178,14 +180,16 @@ public class CardRestControllerUpdateCardQuantityTests {
 				}
 				""";
 		
-		ResultActions result = mvc.perform(MockMvcRequestBuilders
-				.put("/card/update/quantity")
-				.with(csrf())
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(requestBody)
-				.accept(MediaType.APPLICATION_JSON));
-
-		result.andDo(MockMvcResultHandlers.print())
-				.andExpect(status().is4xxClientError());
+		MvcResult result = mvc.perform(MockMvcRequestBuilders
+											.put("/card/update/quantity")
+											.with(csrf())
+											.contentType(MediaType.APPLICATION_JSON)
+											.content(requestBody)
+											.accept(MediaType.APPLICATION_JSON))
+											.andReturn();
+		
+		assertThat(result.getResponse().getContentAsString()).contains("Updated quantity must be 1 or higher", "Card name must not be null or empty");
+		
 	}
+		
 }

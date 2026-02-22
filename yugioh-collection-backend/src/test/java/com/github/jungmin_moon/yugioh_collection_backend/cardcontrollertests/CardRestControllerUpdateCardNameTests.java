@@ -93,9 +93,9 @@ public class CardRestControllerUpdateCardNameTests {
 	} 
 	
 	@Test
-	@DisplayName("Test for updating card name that returns 4xx and appropriate message")
+	@DisplayName("Test for updating card name that returns an appropriate message")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateNameRequest_WithBadOldCardNameValue_ThenReturn4xxAndErrorMessage() throws Exception {
+	void givenUpdateNameRequest_WithBadOldCardNameValue_ThenReturnErrorMessage() throws Exception {
 		
 		String updateNameRequest = """
 				{
@@ -119,9 +119,9 @@ public class CardRestControllerUpdateCardNameTests {
 	}
 	
 	@Test
-	@DisplayName("Test for updating card name that returns 4xx due to newCardName being null or empty")
+	@DisplayName("Test for updating card name that returns an error message due to newCardName being null or empty")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdateNameRequest_WithBadNewCardNameValue_ThenReturn4xxAndErrorMessage() throws Exception {
+	void givenUpdateNameRequest_WithBadNewCardNameValue_ThenReturnErrorMessage() throws Exception {
 		
 		String updateNameRequest = """
 				{
@@ -145,9 +145,9 @@ public class CardRestControllerUpdateCardNameTests {
 	}
 	
 	@Test
-	@DisplayName("Test for updating card name that returns 4xx and two messages")
+	@DisplayName("Test for updating card name that returns two messages")
 	@WithMockUser(username = "testUser3", password = "password1", roles = {"USER"})
-	void givenUpdatenameRequest_WithBadOldCardNameAndNewCardNameValue_ThenReturn4xxAndErrorMessage() throws Exception{
+	void givenUpdatenameRequest_WithBadOldCardNameAndNewCardNameValue_ThenReturnErrorMessages() throws Exception{
 		
 		String updateNameRequest = """
 				{
