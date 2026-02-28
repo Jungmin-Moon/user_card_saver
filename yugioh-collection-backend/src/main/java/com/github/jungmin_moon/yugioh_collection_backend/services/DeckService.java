@@ -9,39 +9,25 @@ import com.github.jungmin_moon.yugioh_collection_backend.repositories.DeckReposi
 @Service
 public class DeckService {
 
-	DeckRepository deckRepository;
+	private DeckRepository deckRepository;
+	private DeckPrinterService deckPrinterService;
 	
-	DeckService(DeckRepository deckRepository) {
+	DeckService(DeckRepository deckRepository, DeckPrinterService deckPrinterService) {
 		
 		this.deckRepository = deckRepository;
+		this.deckPrinterService = deckPrinterService;
 		
 	}
 	
-	public void createDeck(String username, NewDeckRequest newDeckRequest) {
-		Decks deck = new Decks();
-		deck.setUsername(username);
-		deck.setDeckName(newDeckRequest.deckName());
+	public String getAll(String username) {
 		
-		deckRepository.save(deck);
-	}
-	
-	
-	/*
-	public boolean addCardToMainDeck(String username, ) {
+		var userDecks = deckRepository.getAllByUsername(username);
 		
-	} */
-	
-	//Helper method to check user made sure to say card should be added to Main Deck or Side Deck, will make it so capitalization doesn't matter
-	public boolean validDeckLocation(String deckLocation) {
-	
-		boolean correctLocationSpelling = false;
-		
-		if (deckLocation.equalsIgnoreCase("main deck") || deckLocation.equalsIgnoreCase("side deck")) {
-			
-			correctLocationSpelling = true;
-			
+		if (userDecks.size() == 0) {
+			return "You do not have any decks created.";
 		}
 		
-		return correctLocationSpelling;
+		return deckPrinterService.printUsersDeckList(userDecks);
+		
 	}
 }

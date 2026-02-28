@@ -1,5 +1,7 @@
 package com.github.jungmin_moon.yugioh_collection_backend.restcontroller;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,7 +25,11 @@ public class DeckController {
 		
 	}
 	
-	/*
-	@PostMapping("/add")
-	public ResponseEntity<?> */
+	
+	@GetMapping()
+	public String getAll(Authentication a) {
+		
+		return deckService.getAll(a.getName());
+		
+	} 
 }

@@ -23,7 +23,7 @@ public class CardRestControllerPostTests {
 	private CardService cardService;
 	
 	@Autowired
-	MockMvcTester mockMvcTester;
+	private MockMvcTester mockMvcTester;
 	
 	@Test
 	@DisplayName("Should return a 2xx status from a successful card add.")

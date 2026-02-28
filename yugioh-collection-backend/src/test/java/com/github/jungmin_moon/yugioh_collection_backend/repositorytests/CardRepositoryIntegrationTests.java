@@ -18,10 +18,10 @@ import com.github.jungmin_moon.yugioh_collection_backend.repositories.CardReposi
 public class CardRepositoryIntegrationTests {
 	
 	@Autowired
-	CardRepository cardRepository;
+	private CardRepository cardRepository;
 	
 	@Autowired
-	TestEntityManager entityManager;
+	private TestEntityManager entityManager;
 	
 	//Setup of needed objects
 	

@@ -24,7 +24,7 @@ public class CardServicePostPutImplTests {
 	private CardRepository cardRepository;
 	
 	@Autowired
-	CardService cardService;
+	private CardService cardService;
 	
 	@Test
 	@Transactional

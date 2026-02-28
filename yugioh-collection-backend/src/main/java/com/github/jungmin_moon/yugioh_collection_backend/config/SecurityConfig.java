@@ -63,7 +63,7 @@ public class SecurityConfig {
 			.csrf(csrf -> csrf.disable())
 			.authorizeHttpRequests(
 				c -> c
-					.requestMatchers("/card/**").hasAnyRole("USER", "ADMIN")
+					.requestMatchers("/card/**", "/deck/**").hasAnyRole("USER", "ADMIN")
 					.requestMatchers(HttpMethod.POST, "/register").permitAll()
 					.anyRequest().authenticated()
 				

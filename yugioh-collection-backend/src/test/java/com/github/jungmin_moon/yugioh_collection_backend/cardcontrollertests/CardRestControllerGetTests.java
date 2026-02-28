@@ -30,7 +30,7 @@ public class CardRestControllerGetTests {
 	private RestTestClient restTestClient;
 	
 	@MockitoBean
-	CardService cardService;
+	private CardService cardService;
 	
 	List<Card> cardList = new ArrayList<>();
 	
