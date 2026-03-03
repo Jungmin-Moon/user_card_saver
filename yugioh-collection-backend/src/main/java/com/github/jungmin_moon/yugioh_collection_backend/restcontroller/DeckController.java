@@ -2,6 +2,7 @@ package com.github.jungmin_moon.yugioh_collection_backend.restcontroller;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,9 +14,9 @@ import com.github.jungmin_moon.yugioh_collection_backend.services.DeckService;
 @RequestMapping("/deck")
 public class DeckController {
 
-	DeckService deckService;
-	DeckRepository deckRepository;
-	CardService cardService;
+	private DeckService deckService;
+	private DeckRepository deckRepository;
+	private CardService cardService;
 	
 	DeckController(DeckService deckService, DeckRepository deckRepository, CardService cardService) {
 		
@@ -32,4 +33,10 @@ public class DeckController {
 		return deckService.getAll(a.getName());
 		
 	} 
+	
+	@GetMapping("/{deckName:[0-9a-zA-Z &.]*}")
+	public String printDeck(Authentication a, @PathVariable String deckName) {
+		
+		return "";
+	}
 }

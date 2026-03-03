@@ -4,13 +4,19 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.github.jungmin_moon.yugioh_collection_backend.entities.DeckContents;
 import com.github.jungmin_moon.yugioh_collection_backend.entities.Decks;
 
 @Service
 public class DeckPrinterService {
 
+	private ListFilterService listFilterService;
 	
-	public String printUsersDeckList(List<Decks> decksList) {
+	public DeckPrinterService(ListFilterService listFilterService) {
+		this.listFilterService = listFilterService;
+	}
+	
+	public String printListOfUserDecks(List<Decks> decksList) {
 		
 		StringBuilder deckListString = new StringBuilder();
 		
@@ -26,4 +32,14 @@ public class DeckPrinterService {
 		
 	}
 	
+	public String printDeckContents(List<DeckContents> deckContentList) {
+		
+		StringBuilder deckContentString = new StringBuilder();
+		
+		var mainDeckList = listFilterService.returnListFilteredByGivenString(deckContentList, "main deck");
+		var sideDeckList = listFilterService.returnListFilteredByGivenString(deckContentList, "side deck");
+		
+		return deckContentString.toString();
+		
+	}
 }
