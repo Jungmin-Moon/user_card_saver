@@ -10,9 +10,9 @@ import com.github.jungmin_moon.yugioh_collection_backend.entities.Decks;
 @Service
 public class DeckPrinterService {
 
-	private ListFilterService listFilterService;
+	private DeckContentListFilterService listFilterService;
 	
-	public DeckPrinterService(ListFilterService listFilterService) {
+	public DeckPrinterService(DeckContentListFilterService listFilterService) {
 		this.listFilterService = listFilterService;
 	}
 	
@@ -38,6 +38,22 @@ public class DeckPrinterService {
 		
 		var mainDeckList = listFilterService.returnListFilteredByGivenString(deckContentList, "main deck");
 		var sideDeckList = listFilterService.returnListFilteredByGivenString(deckContentList, "side deck");
+		
+		deckContentString.append("Main Deck - " + mainDeckList.size() + " cards\n");
+		
+		for (DeckContents dc : mainDeckList) {
+			
+			deckContentString.append(dc.getCardName() + "-" + dc.getQuantity() + "\n");
+			
+		}
+		
+		deckContentString.append("Side Deck - " + sideDeckList.size() + " cards\n");
+		
+		for (DeckContents dc : sideDeckList) {
+			
+			deckContentString.append(dc.getCardName() + "-" + dc.getQuantity() + "\n");
+			
+		}
 		
 		return deckContentString.toString();
 		

@@ -40,6 +40,8 @@ public class DeckService {
 			return deckName + ": This deck list is empty currently.";
 		}
 		
+		deckPrinterService.printDeckContents(deckContents);
+		
 		return "";
 	}
 	

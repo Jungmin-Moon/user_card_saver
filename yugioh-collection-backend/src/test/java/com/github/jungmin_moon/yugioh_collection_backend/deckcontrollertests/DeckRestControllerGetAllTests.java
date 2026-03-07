@@ -25,7 +25,7 @@ import com.github.jungmin_moon.yugioh_collection_backend.services.DeckService;
 
 @WebMvcTest(DeckController.class)
 @AutoConfigureRestTestClient
-public class DeckRestControllerGetTests {
+public class DeckRestControllerGetAllTests {
 	
 	@Autowired
 	private RestTestClient restTestClient;

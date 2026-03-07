@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import com.github.jungmin_moon.yugioh_collection_backend.entities.DeckContents;
 
 @Service
-public class ListFilterService {
+public class DeckContentListFilterService {
 
 	
 	public List<DeckContents> returnListFilteredByGivenString(List<DeckContents> givenList, String filterString) {

@@ -37,6 +37,7 @@ public class DeckController {
 	@GetMapping("/{deckName:[0-9a-zA-Z &.]*}")
 	public String printDeck(Authentication a, @PathVariable String deckName) {
 		
-		return "";
+		return deckService.getDeckContent(a.getName(), deckName);
+		
 	}
 }
