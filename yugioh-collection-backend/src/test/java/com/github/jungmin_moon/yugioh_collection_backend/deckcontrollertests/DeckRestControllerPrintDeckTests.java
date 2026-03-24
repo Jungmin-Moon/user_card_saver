@@ -37,7 +37,10 @@ public class DeckRestControllerPrintDeckTests {
 	@BeforeEach
 	void setup() {
 		
-		
+		/*
+		 * TODO
+		 * make three cards each for side deck and main deck
+		 */
 		
 	}
 }

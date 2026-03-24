@@ -11,9 +11,13 @@ import com.github.jungmin_moon.yugioh_collection_backend.entities.Decks;
 public class DeckPrinterService {
 
 	private DeckContentListFilterService listFilterService;
+	private DeckContentCounterService deckContentCounterService;
 	
-	public DeckPrinterService(DeckContentListFilterService listFilterService) {
+	public DeckPrinterService(DeckContentListFilterService listFilterService, DeckContentCounterService deckContentCounterService) {
+		
 		this.listFilterService = listFilterService;
+		this.deckContentCounterService = deckContentCounterService;
+		
 	}
 	
 	public String printListOfUserDecks(List<Decks> decksList) {
@@ -39,7 +43,10 @@ public class DeckPrinterService {
 		var mainDeckList = listFilterService.returnListFilteredByGivenString(deckContentList, "main deck");
 		var sideDeckList = listFilterService.returnListFilteredByGivenString(deckContentList, "side deck");
 		
-		deckContentString.append("Main Deck - " + mainDeckList.size() + " cards\n");
+		int mainDeckCount = deckContentCounterService.getNumberOfCardsInMainDeck(mainDeckList);
+		int sideDeckCount = deckContentCounterService.getNumberOfCardsInSideDeck(sideDeckList);
+		
+		deckContentString.append("Main Deck - " + mainDeckCount + " cards\n");
 		
 		for (DeckContents dc : mainDeckList) {
 			
@@ -47,7 +54,7 @@ public class DeckPrinterService {
 			
 		}
 		
-		deckContentString.append("Side Deck - " + sideDeckList.size() + " cards\n");
+		deckContentString.append("Side Deck - " + sideDeckCount + " cards\n");
 		
 		for (DeckContents dc : sideDeckList) {
 			
