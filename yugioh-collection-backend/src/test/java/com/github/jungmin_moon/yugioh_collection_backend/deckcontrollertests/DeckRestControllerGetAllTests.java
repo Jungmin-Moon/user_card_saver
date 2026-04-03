@@ -33,12 +33,6 @@ public class DeckRestControllerGetAllTests {
 	@MockitoBean
 	private DeckService deckService;
 	
-	@MockitoBean
-	private DeckRepository deckRepository;
-	
-	@MockitoBean
-	private CardService cardService;
-	
 	List<Decks> decks = new ArrayList<>();
 	List<Decks> emptyList = new ArrayList<>();
 	

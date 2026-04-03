@@ -15,17 +15,12 @@ import com.github.jungmin_moon.yugioh_collection_backend.services.DeckService;
 public class DeckController {
 
 	private DeckService deckService;
-	private DeckRepository deckRepository;
-	private CardService cardService;
 	
-	DeckController(DeckService deckService, DeckRepository deckRepository, CardService cardService) {
+	DeckController(DeckService deckService) {
 		
 		this.deckService = deckService;
-		this.deckRepository = deckRepository;
-		this.cardService = cardService;
 		
 	}
-	
 	
 	@GetMapping()
 	public String getAll(Authentication a) {
@@ -40,4 +35,6 @@ public class DeckController {
 		return deckService.getDeckContent(a.getName(), deckName);
 		
 	}
+	
+	
 }

@@ -11,6 +11,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.client.RestTestClient;
 
 import com.github.jungmin_moon.yugioh_collection_backend.entities.DeckContents;
+import com.github.jungmin_moon.yugioh_collection_backend.entities.Decks;
 import com.github.jungmin_moon.yugioh_collection_backend.repositories.DeckRepository;
 import com.github.jungmin_moon.yugioh_collection_backend.restcontroller.DeckController;
 import com.github.jungmin_moon.yugioh_collection_backend.services.CardService;
@@ -26,12 +27,6 @@ public class DeckRestControllerPrintDeckTests {
 	@MockitoBean
 	private DeckService deckService;
 	
-	@MockitoBean
-	private DeckRepository deckRepository;
-	
-	@MockitoBean
-	private CardService cardService;
-	
 	List<DeckContents> deckContentTest = new ArrayList<>();
 	
 	@BeforeEach
@@ -41,6 +36,20 @@ public class DeckRestControllerPrintDeckTests {
 		 * TODO
 		 * make three cards each for side deck and main deck
 		 */
+		
+		DeckContents cardInMainDeck1 = new DeckContents();
+		cardInMainDeck1.setDeckName("Dark Magician Deck");
+		cardInMainDeck1.setCardLocation("Main deck");
+		cardInMainDeck1.setCardName("Dark Magician");
+		cardInMainDeck1.setQuantity(2);
+		
+		DeckContents cardInMainDeck2 = new DeckContents();
+		cardInMainDeck2.setDeckName("Dark Magician Deck");
+		cardInMainDeck2.setCardLocation("Main Deck");
+		cardInMainDeck2.setCardName("Eye of Timaeus");
+		cardInMainDeck2.setQuantity(3);
+		
+		DeckContents cardInMainDeck3 = new DeckContents();
 		
 	}
 }

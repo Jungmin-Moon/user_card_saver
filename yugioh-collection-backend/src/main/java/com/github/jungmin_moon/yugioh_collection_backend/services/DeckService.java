@@ -47,16 +47,6 @@ public class DeckService {
 	/*
 	 * TODO
 	 * 
-	 * GET see a list of cards in deck
-	should show how many in main deck and how many in side deck
-	
-		card name xNumber
-		Main Deck - #
-		card name - #
-
-		Side Deck - #/15
-		card name - #
-
 		POST add a card to deck
 			needs to check if user owns that card
 			needs a check to see if there are already three copies in deck in a service
